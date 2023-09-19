@@ -1,0 +1,18 @@
+name: Setup Biome
+author: nhedger
+description: Setup the Biome CLI in GitHub Actions
+branding:
+  color: yellow
+  icon: terminal
+inputs:
+  token:
+    description: GitHub Actions token to authenticate API requests
+    required: true
+    default: ${{ github.token }}
+  version:
+    description: The version of the Biome CLI to install
+    required: true
+    default: latest
+runs:
+  using: 'node20'
+  main: 'dist/index.mjs'

@@ -1,0 +1,4 @@
+pre-commit:
+  commands:
+    package:
+      run: pnpm run build && pnpm run package && git add dist/*

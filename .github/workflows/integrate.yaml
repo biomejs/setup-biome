@@ -1,0 +1,49 @@
+name: Integrate
+
+on:
+  push:
+    branches: [ main, "releases/v*" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          run_install: true
+
+      - name: Build action
+        run: pnpm build
+
+      - name: Package action
+        run: pnpm package
+
+  coding-standards:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        run_install: true
+
+    - name: Run Biome
+      run: pnpm biome ci .
