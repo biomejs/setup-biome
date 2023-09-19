@@ -58,5 +58,4 @@ Install version `1.2.0` of the Biome CLI.
 
 ## License
 
-The scripts and documentation in this project are licensed under
-the [MIT License](LICENSE.md).
+Copyright © 2023, Nicolas Hedger. Released under the [MIT License](LICENSE.md).
