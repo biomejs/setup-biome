@@ -8,8 +8,8 @@ dependencies:
     specifier: ^2.0.1
     version: 2.0.1
   '@octokit/auth-action':
-    specifier: ^4.0.0
-    version: 4.0.0
+    specifier: ^4.0.1
+    version: 4.0.1
   '@octokit/request-error':
     specifier: ^5.0.1
     version: 5.0.1
@@ -822,12 +822,12 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@octokit/auth-action@4.0.0:
-    resolution: {integrity: sha512-sMm9lWZdiX6e89YFaLrgE9EFs94k58BwIkvjOtozNWUqyTmsrnWFr/M5LolaRzZ7Kmb5FbhF9hi7FEeE274SoQ==}
+  /@octokit/auth-action@4.0.1:
+    resolution: {integrity: sha512-mJLOcFFafIivLZ7BEkGDCTFoHPJv7BeL5Zwy7j5qMDU0b/DKshhi6GCU9tw3vmKhOxTNquYfvwqsEfPpemaaxg==}
     engines: {node: '>= 18'}
     dependencies:
       '@octokit/auth-token': 4.0.0
-      '@octokit/types': 11.1.0
+      '@octokit/types': 12.0.0
     dev: false
 
   /@octokit/auth-token@4.0.0:
