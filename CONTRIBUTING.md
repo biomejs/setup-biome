@@ -9,7 +9,7 @@ following guidelines before making your contribution.
 > with the project's objectives. Doing so can help you save both time and 
 > effort.
 
-[discussion]: https://github.com/biomejs/biome/discussions
+[discussion]: https://github.com/biomejs/setup-biome/discussions
 
 ## Project setup
 
