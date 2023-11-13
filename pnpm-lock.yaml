@@ -34,8 +34,8 @@ devDependencies:
     specifier: ^16.18.60
     version: 16.18.60
   '@types/semver':
-    specifier: ^7.5.4
-    version: 7.5.4
+    specifier: ^7.5.5
+    version: 7.5.5
   '@vercel/ncc':
     specifier: ^0.38.1
     version: 0.38.1
@@ -1046,8 +1046,8 @@ packages:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
     dev: true
 
-  /@types/semver@7.5.4:
-    resolution: {integrity: sha512-MMzuxN3GdFwskAnb6fz0orFvhfqi752yjaXylr0Rp4oDg5H0Zn1IuyRhDVvYOwAXoJirx2xuS16I3WjxnAIHiQ==}
+  /@types/semver@7.5.5:
+    resolution: {integrity: sha512-+d+WYC1BxJ6yVOgUgzK8gWvp5qF8ssV5r4nsDcZWKRWcDQLQ619tvWAxJQYGgBrO1MnLJC7a5GtiYsAoQ47dJg==}
     dev: true
 
   /@vercel/ncc@0.38.1:
