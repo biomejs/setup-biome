@@ -31,8 +31,8 @@ devDependencies:
     specifier: ^12.3.0
     version: 12.3.0
   '@types/node':
-    specifier: ^16.18.62
-    version: 16.18.62
+    specifier: ^16.18.65
+    version: 16.18.65
   '@types/semver':
     specifier: ^7.5.6
     version: 7.5.6
@@ -1038,8 +1038,8 @@ packages:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
     dev: true
 
-  /@types/node@16.18.62:
-    resolution: {integrity: sha512-/zbPnIBkef8sT+6vw6BxdvU3dCxRI0v6rBu/6IvXnRNtOPILucigqhUBPYxtQ/8JdAna0JLTAcNTCDmQ77QYkQ==}
+  /@types/node@16.18.65:
+    resolution: {integrity: sha512-5E9WgTy95B7i90oISjui9U5Zu7iExUPfU4ygtv4yXEy6zJFE3oQYHCnh5H1jZRPkjphJt2Ml3oQW6M0qtK534A==}
     dev: true
 
   /@types/resolve@1.20.2:
