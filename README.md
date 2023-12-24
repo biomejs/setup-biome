@@ -19,7 +19,7 @@ The following inputs are supported.
 
     # The version of the Biome CLI to install.
     # This input is optional and defaults to "latest".
-    # Example values: "1.2.0", "latest"
+    # Example values: "1.4.1", "latest"
     version: "latest"
 
     # The GitHub token to use to authenticate GitHub API requests.
@@ -44,13 +44,13 @@ Setup the latest version of the Biome CLI.
 
 ### Specific version
 
-Install version `1.2.0` of the Biome CLI.
+Install version `1.4.1` of the Biome CLI.
 
 ```yaml
 - name: Setup Biome CLI
   uses: biomejs/setup-biome@v1
   with:
-    version: 1.2.0
+    version: 1.4.1
 
 - name: Run Biome
   run: biome ci .
