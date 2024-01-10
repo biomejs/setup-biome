@@ -17,7 +17,7 @@ import { getInput } from "./helpers";
  * @param projectRoot The root directory of the project. Defaults to the current working directory.
  */
 export const getBiomeVersion = async (): Promise<string> => {
-	let root = getInput("working-directory");
+	let root = getInput("working-dir");
 
 	// If the working directory is not specified, we fallback to the current
 	// working directory.

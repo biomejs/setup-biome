@@ -22448,7 +22448,7 @@ const getInput = (name) => {
 };
 
 const getBiomeVersion = async () => {
-  let root = getInput("working-directory");
+  let root = getInput("working-dir");
   if (!root) {
     root = process.cwd();
     (0,core.info)(
