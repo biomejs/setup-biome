@@ -14,7 +14,7 @@ The following inputs are supported.
 
 ```yaml
 - name: Setup Biome
-  uses: biomejs/setup-biome@v1
+  uses: biomejs/setup-biome@v2
   with:
 
     # The version of the Biome CLI to install.
