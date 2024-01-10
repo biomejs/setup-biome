@@ -1,7 +1,11 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.2.2/schema.json",
 	"files": {
-		"ignore": ["node_modules/**/*", "dist/**/*"]
+		"ignore": [
+			"node_modules/**/*",
+			"dist/**/*",
+			"test/fixtures/**/node_modules"
+		]
 	},
 	"organizeImports": {
 		"enabled": true

@@ -13,6 +13,10 @@ inputs:
     description: The version of the Biome CLI to install
     required: true
     default: latest
+  working-dir:
+    description: The directory in which the action will look for lockfiles to extract the Biome version from
+    required: false
+    default: ""
 runs:
   using: 'node20'
   main: 'dist/index.mjs'

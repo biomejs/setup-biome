@@ -1,12 +1,11 @@
-import { getInput as coreGetInput } from "@actions/core";
 import { createActionAuth } from "@octokit/auth-action";
 import { Octokit } from "@octokit/rest";
-import { getInput } from "./helpers";
 import { setup } from "./setup";
+import { getBiomeVersion } from "./version";
 
 (async () => {
 	await setup({
-		version: getInput("version"),
+		version: await getBiomeVersion(),
 		platform: process.platform as "linux" | "darwin" | "win32",
 		architecture: process.arch as "x64" | "arm64",
 		octokit: new Octokit({

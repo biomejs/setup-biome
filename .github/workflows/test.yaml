@@ -7,20 +7,159 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Test
+  test-specific:
+    name: Specific version
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, macos-latest, windows-latest ]
-        version: [ "latest", "1.4.1" ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Biome CLI
         uses: ./
         with:
-          version: ${{ matrix.version }}
-      - name: Test the CLI
-        run: biome version
+          version: '1.5.1'
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+  
+  test-npm:
+    name: Auto-detect version (npm)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome CLI
+        uses: ./
+        with:
+          working-dir: "test/fixtures/npm"
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+
+  test-pnpm:
+    name:  Auto-detect version (pnpm)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome CLI
+        uses: ./
+        with:
+          working-dir: "test/fixtures/pnpm"
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+        
+  test-yarn:
+    name:  Auto-detect version (yarn)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome CLI
+        uses: ./
+        with:
+          working-dir: "test/fixtures/yarn"
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+                
+  test-bun:
+    name:  Auto-detect version (bun)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome CLI
+        uses: ./
+        with:
+          working-dir: "test/fixtures/bun"
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+  
+  test-fallback-latest:
+    name: Fallback to latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Biome CLI
+        uses: ./
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: biome --version
