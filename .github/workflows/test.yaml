@@ -24,7 +24,7 @@ jobs:
           version: ${{ matrix.version }}
       - name: Retrieve the version
         id: version
-        run: echo "version=\"$(biome --version)\"" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
         run: |
           if [ "Version: ${{ matrix.version }}" == "${{ steps.version.outputs.version }}" ]; then
