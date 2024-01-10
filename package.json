@@ -5,8 +5,6 @@
     "build": "unbuild",
     "prepackage": "npm run build",
     "package": "ncc build build/index.mjs -o dist",
-    "format": "biome format --write .",
-    "lint": "biome lint . --apply",
     "check": "biome check . --apply",
     "postinstall": "lefthook install"
   },

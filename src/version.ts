@@ -1,9 +1,9 @@
-import { readFile } from "fs/promises";
 import { existsSync } from "node:fs";
-import { getInput } from "./helpers";
 import { join } from "node:path";
+import { info, warning } from "@actions/core";
+import { readFile } from "fs/promises";
 import { parse } from "yaml";
-import { warning, info } from "@actions/core";
+import { getInput } from "./helpers";
 
 /**
  * Determines the version of the Biome CLI to setup.
