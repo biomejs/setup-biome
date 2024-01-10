@@ -27,7 +27,7 @@ jobs:
         run: echo "version=$(biome version)" >> $GITHUB_OUTPUT
       - name: Check equality
         run: |
-          if [ "${{ matrix.version }}" == "${{ steps.version.outputs.version }}" ]; then
+          if [ "Version: ${{ matrix.version }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
           else
             echo "Versions do not match"
