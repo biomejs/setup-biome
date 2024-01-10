@@ -1,4 +1,3 @@
-import { getInput as coreGetInput } from "@actions/core";
 import { createActionAuth } from "@octokit/auth-action";
 import { Octokit } from "@octokit/rest";
 import { getInput } from "./helpers";
