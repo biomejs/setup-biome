@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    name: Test
+    name: Test it downloads the specified version
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -22,5 +22,14 @@ jobs:
         uses: ./
         with:
           version: ${{ matrix.version }}
-      - name: Test the CLI
-        run: biome version
+      - name: Retrieve the version
+        id: version
+        run: echo "version=$(biome version)" >> $GITHUB_OUTPUT
+      - name: Check equality
+        run: |
+          if [ "${{ matrix.version }}" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
