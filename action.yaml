@@ -12,7 +12,7 @@ inputs:
   version:
     description: The version of the Biome CLI to install
     required: true
-    default: latest
+    default: ""
   working-dir:
     description: The directory in which the action will look for lockfiles to extract the Biome version from
     required: false
