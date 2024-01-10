@@ -19,7 +19,7 @@ The following inputs are supported.
 
     # The version of the Biome CLI to install.
     # This input is optional and defaults to "latest".
-    # Example values: "1.4.1", "latest"
+    # Example values: "1.5.1", "latest"
     version: "latest"
 
     # The GitHub token to use to authenticate GitHub API requests.
@@ -30,13 +30,34 @@ The following inputs are supported.
 
 ## Examples
 
+### Automatic version detection
+
+To automatically detect the version of Biome to install from the project's dependencies,
+simply omit the `version` input.
+
+The action will look for the version of the `@biomejs/biome` dependency in the lockfiles
+of all major package managers (npm, yarn, pnpm, bun) and install that version of the Biome CLI.
+
+If no version of the Biome CLI is found in the lockfiles, the latest version of the Biome CLI
+will be installed.
+
+```yaml
+- name: Setup Biome CLI
+  uses: biomejs/setup-biome@v2
+
+- name: Run Biome
+  run: biome ci .
+```
+
 ### Basic example
 
 Setup the latest version of the Biome CLI.
 
 ```yaml
 - name: Setup Biome CLI
-  uses: biomejs/setup-biome@v1
+  uses: biomejs/setup-biome@v2
+  with:
+    version: latest
 
 - name: Run Biome
   run: biome ci .
@@ -48,9 +69,9 @@ Install version `1.4.1` of the Biome CLI.
 
 ```yaml
 - name: Setup Biome CLI
-  uses: biomejs/setup-biome@v1
+  uses: biomejs/setup-biome@v2
   with:
-    version: 1.4.1
+    version: 1.5.1
 
 - name: Run Biome
   run: biome ci .
