@@ -28,6 +28,11 @@ The following inputs are supported.
     # This input is optional and defaults to the job's GitHub token.
     # Example value: ${{ secrets.GITHUB_TOKEN }}
     token: ${{ github.token }}
+
+    # The directory in which the lockfile will be looked for when automatically
+    # determining the version of the Biome CLI to install. Defaults to the current
+    # working directory.
+    working-dir: ""
 ```
 
 ## Examples
