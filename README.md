@@ -49,7 +49,7 @@ will be installed.
   run: biome ci .
 ```
 
-### Basic example
+### Latest version
 
 Setup the latest version of the Biome CLI.
 
