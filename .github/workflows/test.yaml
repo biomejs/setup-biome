@@ -24,6 +24,7 @@ jobs:
           version: ${{ matrix.version }}
       - name: Retrieve the version
         id: version
+        shell: bash
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
         shell: bash
@@ -51,6 +52,7 @@ jobs:
           working-dir: "test/fixtures/npm"
       - name: Retrieve the version
         id: version
+        shell: bash
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
         shell: bash
@@ -78,6 +80,7 @@ jobs:
           working-dir: "test/fixtures/pnpm"
       - name: Retrieve the version
         id: version
+        shell: bash
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
         shell: bash
@@ -105,6 +108,7 @@ jobs:
           working-dir: "test/fixtures/yarn"
       - name: Retrieve the version
         id: version
+        shell: bash
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
         shell: bash
