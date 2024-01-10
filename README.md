@@ -65,7 +65,7 @@ Setup the latest version of the Biome CLI.
 
 ### Specific version
 
-Install version `1.4.1` of the Biome CLI.
+Install version `1.5.1` of the Biome CLI.
 
 ```yaml
 - name: Setup Biome CLI
