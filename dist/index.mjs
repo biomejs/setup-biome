@@ -22451,11 +22451,15 @@ const getBiomeVersion = async () => {
   let root = getInput("working-directory");
   if (!root) {
     root = process.cwd();
-    (0,core.info)("No working directory specified. Using the current working directory.");
+    (0,core.info)(
+      "No working directory specified. Using the current working directory."
+    );
   }
   if (root && !(0,external_node_fs_namespaceObject.existsSync)((0,external_node_path_namespaceObject.join)(root))) {
     root = process.cwd();
-    (0,core.warning)("The specified working directory does not exist. Using the current working directory instead.");
+    (0,core.warning)(
+      "The specified working directory does not exist. Using the current working directory instead."
+    );
   }
   return getInput("version") ?? await extractVersionFromNpmLockFile(root) ?? await extractVersionFromPnpmLockFile(root) ?? await extractVersionFromYarnLockFile(root) ?? "latest";
 };

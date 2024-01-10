@@ -23,14 +23,18 @@ export const getBiomeVersion = async (): Promise<string> => {
 	// working directory.
 	if (!root) {
 		root = process.cwd();
-		info("No working directory specified. Using the current working directory.");
+		info(
+			"No working directory specified. Using the current working directory.",
+		);
 	}
 
 	// If the working directoy has been specified, but does not exist,
 	// we fallback to the current working directory.
 	if (root && !existsSync(join(root))) {
 		root = process.cwd();
-		warning("The specified working directory does not exist. Using the current working directory instead.")
+		warning(
+			"The specified working directory does not exist. Using the current working directory instead.",
+		);
 	}
 
 	return (
