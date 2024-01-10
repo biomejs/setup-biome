@@ -26,6 +26,7 @@ jobs:
         id: version
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
+        shell: bash
         run: |
           if [ "Version: ${{ matrix.version }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
@@ -52,6 +53,7 @@ jobs:
         id: version
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
+        shell: bash
         run: |
           if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
@@ -78,6 +80,7 @@ jobs:
         id: version
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
+        shell: bash
         run: |
           if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
@@ -104,6 +107,7 @@ jobs:
         id: version
         run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
       - name: Check equality
+        shell: bash
         run: |
           if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
