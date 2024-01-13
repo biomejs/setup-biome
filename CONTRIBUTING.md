@@ -50,3 +50,14 @@ following guidelines before making your contribution.
    branch to your fork and create a pull request. Please ensure that the title of your pull request follows the [conventional commits][cc-link] specification.
 
 [cc-link]: https://www.conventionalcommits.org/en/v1.0.0/
+
+## Maintainers
+
+This section is intended for maintainers of this project.
+
+### Releasing a new version
+
+1. Make sure you're on the `main` branch that it's up to date with the remote.
+2. Run `pnpm tag vX.Y.Z` to tag the current commit with the version number. This will automatically create the corresponding "short tags" (e.g. `v1`, `v1.0`, `v1.0.0`) and make them point to the same commit.
+3. Run `git push --tags --force` to push the tags to the remote.
+4. Create a new release on GitHub, and **choose the full-version tag** (e.g. `v1.0.0`) as the target.
