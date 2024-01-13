@@ -6,6 +6,13 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  # This version is used when running the tests to ensure that the correct version is installed.
+  # It is the version that the test expect to find during automatic version detection. It is important
+  # that this version is NOT the latest version of the CLI because some tests may still pass if the
+  # automatic version detection fails and falls back to the latest version.
+  BIOME_EXPECTED_VERSION: 1.5.0
+
 jobs:
   test-specific:
     name: Specific version
@@ -56,7 +63,7 @@ jobs:
       - name: Check equality
         shell: bash
         run: |
-          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+          if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
           else
             echo "Versions do not match"
@@ -84,7 +91,7 @@ jobs:
       - name: Check equality
         shell: bash
         run: |
-          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+          if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
           else
             echo "Versions do not match"
@@ -112,7 +119,7 @@ jobs:
       - name: Check equality
         shell: bash
         run: |
-          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+          if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
           else
             echo "Versions do not match"
@@ -140,7 +147,7 @@ jobs:
       - name: Check equality
         shell: bash
         run: |
-          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+          if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
           else
             echo "Versions do not match"
