@@ -41,16 +41,8 @@ The following inputs are supported.
 
 To automatically determine the version of Biome to install based on the project's dependencies, you can simply omit the `version` input.
 
-The action will search for the version of the `@biomejs/biome` dependency in the lockfiles of popular package managers such as npm, yarn, pnpm, and bun. It will then install that specific version of the Biome CLI.
-
-> [!IMPORTANT]
-> <img src="https://bun.sh/logo.svg" width="16"> [Bun](https://bun.sh) users must configure Bun to output a yarn lockfile because this action cannot yet read bun's binary lockfile format.
-> An easy way to do this is to add the following to your `bunfig.toml` file:
-> ```toml
-> [install.lockfile]
-> print = "yarn"
-
-If no version of the Biome CLI is found in the lockfiles, the action will install the latest version of the Biome CLI.
+The action will look for the version of the `@biomejs/biome` dependency in the lockfiles of popular package managers such as npm, yarn, pnpm, and bun. If the version cannot be found in the lockfiles, the action will attempt to retrieve the version from the `package.json` file, and as a last
+resort, it will install the latest version of the Biome CLI.
 
 ```yaml
 - name: Setup Biome CLI
@@ -59,6 +51,9 @@ If no version of the Biome CLI is found in the lockfiles, the action will instal
 - name: Run Biome
   run: biome ci .
 ```
+
+> [!IMPORTANT]
+> We recommend that you *pin* the version of `@biomejs/biome` in your project's dependencies. If you provide a semver range, and automatic version detection falls back to reading the `package.json file`, the highest version within the range will be used. See the [versioning documentation](https://biomejs.dev/internals/versioning/) for more information.
 
 ### Latest version
 
