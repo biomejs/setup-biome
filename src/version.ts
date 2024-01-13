@@ -1,7 +1,16 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
+import { Octokit } from "@octokit/rest";
 import { readFile } from "fs/promises";
+import {
+	SemVer,
+	coerce,
+	maxSatisfying,
+	rsort,
+	valid,
+	validRange,
+} from "semver";
 import { parse } from "yaml";
 import { getInput } from "./helpers";
 
@@ -16,7 +25,7 @@ import { getInput } from "./helpers";
  *
  * @param projectRoot The root directory of the project. Defaults to the current working directory.
  */
-export const getBiomeVersion = async (): Promise<string> => {
+export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
 	let root = getInput("working-dir");
 
 	// If the working directory is not specified, we fallback to the current
@@ -42,6 +51,7 @@ export const getBiomeVersion = async (): Promise<string> => {
 		(await extractVersionFromNpmLockFile(root)) ??
 		(await extractVersionFromPnpmLockFile(root)) ??
 		(await extractVersionFromYarnLockFile(root)) ??
+		(await extractVersionFromPackageManifest(root, octokit)) ??
 		"latest"
 	);
 };
@@ -98,6 +108,92 @@ const extractVersionFromYarnLockFile = async (
 			name.startsWith("@biomejs/biome@"),
 		)[0];
 		return lockfile[biome]?.version;
+	} catch {
+		return undefined;
+	}
+};
+
+/**
+ * Extracts the Biome CLI version from the project's package.json file.
+ *
+ * This function attempts to extract the version of the `@biomejs/biome`
+ * package from the `package.json` file. If the package is not installed,
+ * or the version cannot be extracted, this function will return undefined.
+ *
+ * If the version is specified as a range, this function will return the
+ * highest available version that satisfies the range, if it exists, or
+ * undefined otherwise.
+ */
+const extractVersionFromPackageManifest = async (
+	root: string,
+	octokit: Octokit,
+): Promise<string | undefined> => {
+	try {
+		const manifest = JSON.parse(
+			await readFile(join(root, "package.json"), "utf8"),
+		);
+
+		// The package should be installed as a devDependency, but we'll check
+		// both dependencies and devDependencies just in case.
+		const versionSpecifier =
+			manifest.devDependencies?.["@biomejs/biome"] ??
+			manifest.dependencies?.["@biomejs/biome"];
+
+		// Biome is not a dependency of the project.
+		if (!versionSpecifier) {
+			return undefined;
+		}
+
+		// If the version is specific, we return it directly.
+		if (valid(versionSpecifier)) {
+			return versionSpecifier;
+		}
+
+		// If the version is a range, return the highest available version.
+		if (validRange(versionSpecifier)) {
+			warning(
+				`Please consider pinning the version of @biomejs/biome in your package.json file.
+				See https://biomejs.dev/internals/versioning/ for more information.`,
+				{ title: "Biome version range detected" },
+			);
+
+			const versions = await fetchBiomeVersions(octokit);
+
+			if (!versions) {
+				return undefined;
+			}
+
+			return maxSatisfying(versions, versionSpecifier)?.version ?? undefined;
+		}
+	} catch {
+		return undefined;
+	}
+};
+
+/**
+ * Fetches the available versions of the Biome CLI from GitHub.
+ *
+ * This function will return the versions of the Biome CLI that are available
+ * on GitHub. This includes all versions that have been released, including
+ * pre-releases and draft releases.
+ */
+const fetchBiomeVersions = async (
+	octokit: Octokit,
+): Promise<SemVer[] | undefined> => {
+	try {
+		const releases = await octokit.paginate(
+			"GET /repos/{owner}/{repo}/releases",
+			{
+				owner: "biomejs",
+				repo: "biome",
+			},
+		);
+
+		const versions = releases
+			.filter((release) => release.tag_name.startsWith("cli/"))
+			.map((release) => coerce(release.tag_name));
+
+		return rsort(versions as SemVer[]);
 	} catch {
 		return undefined;
 	}
