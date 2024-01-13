@@ -22447,7 +22447,7 @@ const getInput = (name) => {
   return (0,core.getInput)(name) === "" ? void 0 : (0,core.getInput)(name);
 };
 
-const getBiomeVersion = async () => {
+const getBiomeVersion = async (octokit) => {
   let root = getInput("working-dir");
   if (!root) {
     root = process.cwd();
@@ -22461,7 +22461,7 @@ const getBiomeVersion = async () => {
       "The specified working directory does not exist. Using the current working directory instead."
     );
   }
-  return getInput("version") ?? await extractVersionFromNpmLockFile(root) ?? await extractVersionFromPnpmLockFile(root) ?? await extractVersionFromYarnLockFile(root) ?? "latest";
+  return getInput("version") ?? await extractVersionFromNpmLockFile(root) ?? await extractVersionFromPnpmLockFile(root) ?? await extractVersionFromYarnLockFile(root) ?? await extractVersionFromPackageManifest(root, octokit) ?? "latest";
 };
 const extractVersionFromNpmLockFile = async (root) => {
   try {
@@ -22496,15 +22496,59 @@ const extractVersionFromYarnLockFile = async (root) => {
     return void 0;
   }
 };
+const extractVersionFromPackageManifest = async (root, octokit) => {
+  try {
+    const manifest = JSON.parse(
+      await (0,promises_namespaceObject.readFile)((0,external_node_path_namespaceObject.join)(root, "package.json"), "utf8")
+    );
+    const versionSpecifier = manifest.devDependencies?.["@biomejs/biome"] ?? manifest.dependencies?.["@biomejs/biome"];
+    if (!versionSpecifier) {
+      return void 0;
+    }
+    if ((0,semver.valid)(versionSpecifier)) {
+      return versionSpecifier;
+    }
+    if ((0,semver.validRange)(versionSpecifier)) {
+      (0,core.warning)(
+        `Please consider pinning the version of @biomejs/biome in your package.json file.
+				See https://biomejs.dev/internals/versioning/ for more information.`,
+        { title: "Biome version range detected" }
+      );
+      const versions = await fetchBiomeVersions(octokit);
+      if (!versions) {
+        return void 0;
+      }
+      return (0,semver.maxSatisfying)(versions, versionSpecifier)?.version ?? void 0;
+    }
+  } catch {
+    return void 0;
+  }
+};
+const fetchBiomeVersions = async (octokit) => {
+  try {
+    const releases = await octokit.paginate(
+      "GET /repos/{owner}/{repo}/releases",
+      {
+        owner: "biomejs",
+        repo: "biome"
+      }
+    );
+    const versions = releases.filter((release) => release.tag_name.startsWith("cli/")).map((release) => (0,semver.coerce)(release.tag_name));
+    return (0,semver.rsort)(versions);
+  } catch {
+    return void 0;
+  }
+};
 
 (async () => {
+  const octokit = new rest_dist_node.Octokit({
+    auth: (await (0,dist_node.createActionAuth)()()).token
+  });
   await setup({
-    version: await getBiomeVersion(),
+    version: await getBiomeVersion(octokit),
     platform: process.platform,
     architecture: process.arch,
-    octokit: new rest_dist_node.Octokit({
-      auth: (await (0,dist_node.createActionAuth)()()).token
-    })
+    octokit
   });
 })();
 
