@@ -60,7 +60,7 @@ const extractVersionFromNpmLockFile = async (
 		const lockfile = JSON.parse(
 			await readFile(join(root, "package-lock.json"), "utf-8"),
 		);
-		return lockfile.packages?.["node_modules/@biome/biome"]?.version;
+		return lockfile.packages?.["node_modules/@biomejs/biome"]?.version;
 	} catch {
 		return undefined;
 	}
@@ -77,7 +77,7 @@ const extractVersionFromPnpmLockFile = async (
 		const lockfile = parse(
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
-		return lockfile.dependencies?.["@biome/biome"]?.version;
+		return lockfile.dependencies?.["@biomejs/biome"]?.version;
 	} catch {
 		return undefined;
 	}
