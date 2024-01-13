@@ -1,9 +1,8 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
+import { Octokit } from "@octokit/rest";
 import { readFile } from "fs/promises";
-import { parse } from "yaml";
-import { getInput } from "./helpers";
 import {
 	SemVer,
 	coerce,
@@ -12,7 +11,8 @@ import {
 	valid,
 	validRange,
 } from "semver";
-import { Octokit } from "@octokit/rest";
+import { parse } from "yaml";
+import { getInput } from "./helpers";
 
 /**
  * Determines the version of the Biome CLI to setup.
