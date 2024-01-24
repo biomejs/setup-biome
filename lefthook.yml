@@ -2,4 +2,4 @@ pre-commit:
   commands:
     package:
       glob: src/**/*
-      run: pnpm run build && pnpm run package && git add dist/*
+      run: bun run build && git add dist/*
