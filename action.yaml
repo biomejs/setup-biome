@@ -25,6 +25,10 @@ runs:
       with:
         bun-version: 1.x.x
 
+    - name: Install dependencies
+      run: bun i
+      shell: bash
+
     - name: Setup Biome
       run: bun .
       shell: bash
