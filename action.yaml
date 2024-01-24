@@ -18,17 +18,5 @@ inputs:
     required: false
     default: ""
 runs:
-  using: "composite"
-  steps:
-    - name: Setup Bun
-      uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: 1.x.x
-
-    - name: Install dependencies
-      run: bun i
-      shell: bash
-
-    - name: Setup Biome
-      run: bun .
-      shell: bash
+  using: 'node20'
+  main: 'dist/index.mjs'
