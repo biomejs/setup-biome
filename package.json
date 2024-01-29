@@ -30,7 +30,7 @@
     "yaml": "^2.3.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.5.2",
+    "@biomejs/biome": "^1.5.3",
     "@octokit/types": "^12.4.0",
     "@types/node": "^16.18.74",
     "@types/semver": "^7.5.6",
