@@ -19,7 +19,7 @@ jobs:
           node-version: 16.x
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
           run_install: true
 
@@ -41,7 +41,7 @@ jobs:
         node-version: 16.x
 
     - name: Setup pnpm
-      uses: pnpm/action-setup@v2
+      uses: pnpm/action-setup@v3
       with:
         run_install: true
 
