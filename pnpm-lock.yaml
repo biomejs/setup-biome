@@ -31,8 +31,8 @@ devDependencies:
     specifier: ^1.5.3
     version: 1.5.3
   '@octokit/types':
-    specifier: ^12.4.0
-    version: 12.4.0
+    specifier: ^12.5.0
+    version: 12.5.0
   '@types/node':
     specifier: ^16.18.80
     version: 16.18.80
@@ -850,7 +850,7 @@ packages:
     engines: {node: '>= 18'}
     dependencies:
       '@octokit/auth-token': 4.0.0
-      '@octokit/types': 12.4.0
+      '@octokit/types': 12.5.0
     dev: false
 
   /@octokit/auth-token@4.0.0:
@@ -903,7 +903,7 @@ packages:
       '@octokit/core': '>=5'
     dependencies:
       '@octokit/core': 5.0.0
-      '@octokit/types': 12.4.0
+      '@octokit/types': 12.5.0
     dev: false
 
   /@octokit/plugin-request-log@4.0.0(@octokit/core@5.0.0):
@@ -922,14 +922,14 @@ packages:
       '@octokit/core': '>=5'
     dependencies:
       '@octokit/core': 5.0.0
-      '@octokit/types': 12.4.0
+      '@octokit/types': 12.5.0
     dev: false
 
   /@octokit/request-error@5.0.1:
     resolution: {integrity: sha512-X7pnyTMV7MgtGmiXBwmO6M5kIPrntOXdyKZLigNfQWSEQzVxR4a4vo49vJjTWX70mPndj8KhfT4Dx+2Ng3vnBQ==}
     engines: {node: '>= 18'}
     dependencies:
-      '@octokit/types': 12.4.0
+      '@octokit/types': 12.5.0
       deprecation: 2.3.1
       once: 1.4.0
     dev: false
@@ -961,8 +961,8 @@ packages:
       '@octokit/openapi-types': 18.0.0
     dev: false
 
-  /@octokit/types@12.4.0:
-    resolution: {integrity: sha512-FLWs/AvZllw/AGVs+nJ+ELCDZZJk+kY0zMen118xhL2zD0s1etIUHm1odgjP7epxYU1ln7SZxEUWYop5bhsdgQ==}
+  /@octokit/types@12.5.0:
+    resolution: {integrity: sha512-YJEKcb0KkJlIUNU/zjnZwHEP8AoVh/OoIcP/1IyR4UHxExz7fzpe/a8IG4wBtQi7QDEqiomVLX88S6FpxxAJtg==}
     dependencies:
       '@octokit/openapi-types': 19.1.0
 
