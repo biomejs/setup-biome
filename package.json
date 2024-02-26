@@ -27,7 +27,7 @@
     "@octokit/rest": "^20.0.2",
     "semver": "^7.6.0",
     "ts-dedent": "^2.2.0",
-    "yaml": "^2.3.4"
+    "yaml": "^2.4.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
