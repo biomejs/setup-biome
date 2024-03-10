@@ -1,10 +1,10 @@
 import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
-import { Octokit } from "@octokit/rest";
-import { readFile } from "fs/promises";
+import type { Octokit } from "@octokit/rest";
 import {
-	SemVer,
+	type SemVer,
 	coerce,
 	maxSatisfying,
 	rsort,
@@ -87,7 +87,10 @@ const extractVersionFromPnpmLockFile = async (
 		const lockfile = parse(
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
-		return lockfile.dependencies?.["@biomejs/biome"]?.version;
+		return (
+			lockfile.devDependencies?.["@biomejs/biome"]?.version ??
+			lockfile.dependencies?.["@biomejs/biome"]?.version
+		);
 	} catch {
 		return undefined;
 	}
