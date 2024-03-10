@@ -87,7 +87,7 @@ const extractVersionFromPnpmLockFile = async (
 		const lockfile = parse(
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
-		return lockfile.dependencies?.["@biomejs/biome"]?.version;
+		return lockfile.dependencies?.["@biomejs/biome"]?.version ?? lockfile.devDependencies?.["@biomejs/biome"]?.version;
 	} catch {
 		return undefined;
 	}
