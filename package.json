@@ -35,7 +35,7 @@
     "@types/node": "^16.18.87",
     "@types/semver": "^7.5.8",
     "@vercel/ncc": "^0.38.1",
-    "lefthook": "^1.6.4",
+    "lefthook": "^1.6.5",
     "typescript": "^5.4.2",
     "unbuild": "^2.0.0"
   },
