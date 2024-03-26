@@ -1,5 +1,5 @@
-import { spawnSync } from "child_process";
-import { exit } from "process";
+import { spawnSync } from "node:child_process";
+import { exit } from "node:process";
 import { parse } from "semver";
 
 const version = parse(process.argv[2]);
