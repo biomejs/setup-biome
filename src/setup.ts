@@ -4,7 +4,7 @@ import { addPath, setFailed } from "@actions/core";
 import { downloadTool } from "@actions/tool-cache";
 import { RequestError } from "@octokit/request-error";
 import { Octokit } from "@octokit/rest";
-import { SemVer, coerce, rsort } from "semver";
+import { type SemVer, coerce, rsort } from "semver";
 
 /**
  * Biome Setup Options
