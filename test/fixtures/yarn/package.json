@@ -1,9 +1,9 @@
 {
-  "name": "yarn",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "devDependencies": {
-    "@biomejs/biome": "1.5.0"
-  }
+	"name": "yarn",
+	"version": "1.0.0",
+	"main": "index.js",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "1.5.0"
+	}
 }
