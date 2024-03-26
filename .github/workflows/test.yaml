@@ -41,7 +41,7 @@ jobs:
             echo "Versions do not match"
             exit 1
           fi
-  
+
   test-npm:
     name: Auto-detect version (npm)
     runs-on: ${{ matrix.os }}
@@ -97,7 +97,7 @@ jobs:
             echo "Versions do not match"
             exit 1
           fi
-        
+
   test-yarn:
     name:  Auto-detect version (yarn)
     runs-on: ${{ matrix.os }}
@@ -125,7 +125,7 @@ jobs:
             echo "Versions do not match"
             exit 1
           fi
-                
+
   test-bun:
     name:  Auto-detect version (bun)
     runs-on: ${{ matrix.os }}
@@ -153,7 +153,7 @@ jobs:
             echo "Versions do not match"
             exit 1
           fi
-  
+
   test-fallback-latest:
     name: Fallback to latest
     runs-on: ${{ matrix.os }}
