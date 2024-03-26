@@ -37,7 +37,7 @@ export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
 		);
 	}
 
-	// If the working directoy has been specified, but does not exist,
+	// If the working directory has been specified, but does not exist,
 	// we fallback to the current working directory.
 	if (root && !existsSync(join(root))) {
 		root = process.cwd();
