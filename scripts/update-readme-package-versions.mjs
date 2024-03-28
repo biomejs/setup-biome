@@ -12,24 +12,22 @@ const VERSION_REGEX = /(\d+\.\d+\.\d+)/g;
 
 const updateReadmePackageVersions = async (packageName, readmePath) => {
 	try {
-		const newVersion = await getLatestPackageVersion(packageName);
-		if (!newVersion) {
+		const latestVersion = await getLatestPackageVersion(packageName);
+		if (!latestVersion) {
 			throw new Error(`Failed to get latest version of ${packageName}`);
 		}
 
 		const originalContent = fs.readFileSync(readmePath, "utf8");
-		const updatedContent = originalContent.replace(VERSION_REGEX, newVersion);
+		const updatedContent = originalContent.replace(VERSION_REGEX, latestVersion);
 
 		if (originalContent !== updatedContent) {
 			fs.writeFileSync(readmePath, updatedContent);
-			console.info(`Updated version in ${readmePath} to ${newVersion}`);
-			process.env.HAS_CHANGES = "true";
+			console.info(`Updated version in ${readmePath} to ${latestVersion}`);
 		} else {
 			console.info(`No version changes needed in ${readmePath}`);
-			process.env.HAS_CHANGES = "false";
 		}
 	} catch (error) {
-		console.error("Failed to update", error);
+		throw new Error(`Failed to update ${packageName} version in ${readmePath}`);
 	}
 };
 
