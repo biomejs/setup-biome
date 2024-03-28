@@ -8,8 +8,8 @@ dependencies:
     specifier: ^2.0.1
     version: 2.0.1
   '@octokit/auth-action':
-    specifier: ^4.0.1
-    version: 4.0.1
+    specifier: ^5.0.0
+    version: 5.0.0
   '@octokit/request-error':
     specifier: ^6.0.2
     version: 6.0.2
@@ -867,16 +867,21 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@octokit/auth-action@4.0.1:
-    resolution: {integrity: sha512-mJLOcFFafIivLZ7BEkGDCTFoHPJv7BeL5Zwy7j5qMDU0b/DKshhi6GCU9tw3vmKhOxTNquYfvwqsEfPpemaaxg==}
+  /@octokit/auth-action@5.0.0:
+    resolution: {integrity: sha512-tllw9B8xNwzWnCnizHmz0eT+LChUFytyMQzEtzlYBbotYz8IO9HrLzTq2p6SJMCyKFSBAGl+KTC2YVfawWoLaQ==}
     engines: {node: '>= 18'}
     dependencies:
-      '@octokit/auth-token': 4.0.0
+      '@octokit/auth-token': 5.0.1
       '@octokit/types': 12.6.0
     dev: false
 
   /@octokit/auth-token@4.0.0:
     resolution: {integrity: sha512-tY/msAuJo6ARbK6SPIxZrPBms3xPbfwBrulZe0Wtr/DIY9lje2HeV1uoebShn6mx7SjCHif6EjMvoREj+gZ+SA==}
+    engines: {node: '>= 18'}
+    dev: false
+
+  /@octokit/auth-token@5.0.1:
+    resolution: {integrity: sha512-RTmWsLfig8SBoiSdgvCht4BXl1CHU89Co5xiQ5JF19my/sIRDFCQ1RPrmK0exgqUZuNm39C/bV8+/83+MJEjGg==}
     engines: {node: '>= 18'}
     dev: false
 
