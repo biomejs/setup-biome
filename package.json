@@ -6,6 +6,7 @@
 		"prepackage": "npm run build",
 		"package": "ncc build build/index.mjs -o dist",
 		"check": "biome check . --apply",
+		"ci": "biome ci .",
 		"postinstall": "lefthook install"
 	},
 	"keywords": ["biome", "biomejs", "cli", "github-action"],
