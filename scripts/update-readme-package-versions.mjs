@@ -18,7 +18,10 @@ const updateReadmePackageVersions = async (packageName, readmePath) => {
 		}
 
 		const originalContent = fs.readFileSync(readmePath, "utf8");
-		const updatedContent = originalContent.replace(VERSION_REGEX, latestVersion);
+		const updatedContent = originalContent.replace(
+			VERSION_REGEX,
+			latestVersion,
+		);
 
 		if (originalContent !== updatedContent) {
 			fs.writeFileSync(readmePath, updatedContent);
