@@ -1,0 +1,34 @@
+name: Update README.md Package Versions
+on:
+  workflow_dispatch:
+
+jobs:
+  update-readme-package-versions:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Update README.md package Versions
+      id: update-readme-package-versions
+      run: |
+        pnpm install
+        node scripts/update-readme-package-versions.mjs
+        echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
+
+    - name: Create Pull Request
+      if: steps.update-readme-package-versions.outputs.has_changes == 'true'
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'chore: update package versions in README.md'
+        committer: GitHub Actions Bot <actions@github.com>
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        branch: update-readme-package-versions
+        delete-branch: true
+        title: 'chore: update package versions in README.md'
+        body: |
+          This PR updates the biome package version in README.md to the latest version.
