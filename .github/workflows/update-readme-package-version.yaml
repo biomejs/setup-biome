@@ -12,10 +12,17 @@ jobs:
       with:
         node-version: 20
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        run_install: true
+
+    - name: Package install
+      run: pnpm install
+
     - name: Update README.md package Versions
       id: update-readme-package-versions
       run: |
-        pnpm install
         node scripts/update-readme-package-versions.mjs
         echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
 
