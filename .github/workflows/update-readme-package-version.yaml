@@ -24,11 +24,8 @@ jobs:
       id: update-readme-package-versions
       run: |
         node scripts/update-readme-package-versions.mjs
-        echo $HAS_CHANGES
-        echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
 
     - name: Create Pull Request
-      if: steps.update-readme-package-versions.outputs.has_changes == 'true'
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -40,3 +37,4 @@ jobs:
         title: 'chore: update package versions in README.md'
         body: |
           This PR updates the biome package version in README.md to the latest version.
+        add-paths: README.md

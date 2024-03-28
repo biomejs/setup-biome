@@ -23,13 +23,13 @@ const updateReadmePackageVersions = async (packageName, readmePath) => {
 		if (originalContent !== updatedContent) {
 			fs.writeFileSync(readmePath, updatedContent);
 			console.info(`Updated version in ${readmePath} to ${latestVersion}`);
-			process.env.HAS_CHANGES = "true";
 		} else {
 			console.info(`No version changes needed in ${readmePath}`);
-			process.env.HAS_CHANGES = "false";
 		}
+		process.exit(0);
 	} catch (error) {
 		console.error("Failed to update", error);
+		process.exit(1);
 	}
 };
 
