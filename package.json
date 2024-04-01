@@ -28,7 +28,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.6.3",
 		"@octokit/types": "^12.6.0",
-		"@types/node": "^16.18.91",
+		"@types/node": "^16.18.93",
 		"@types/semver": "^7.5.8",
 		"@vercel/ncc": "^0.38.1",
 		"lefthook": "^1.6.7",
