@@ -11,8 +11,8 @@ dependencies:
     specifier: ^5.1.0
     version: 5.1.0
   '@octokit/request-error':
-    specifier: ^6.0.2
-    version: 6.0.2
+    specifier: ^6.1.0
+    version: 6.1.0
   '@octokit/rest':
     specifier: ^20.0.2
     version: 20.0.2
@@ -965,11 +965,11 @@ packages:
       once: 1.4.0
     dev: false
 
-  /@octokit/request-error@6.0.2:
-    resolution: {integrity: sha512-WtRVpoHcNXs84+s9s/wqfHaxM68NGMg8Av7h59B50OVO0PwwMx+2GgQ/OliUd0iQBSNWgR6N8afi/KjSHbXHWw==}
+  /@octokit/request-error@6.1.0:
+    resolution: {integrity: sha512-xcLJv4IgfWIOEEVZwfhUN3yHNWJL0AMw1J1Ba8BofM9RdDTbapg6MO4zNxlPS4XXX9aAIsbDRa47K57EhgeVAw==}
     engines: {node: '>= 18'}
     dependencies:
-      '@octokit/types': 12.6.0
+      '@octokit/types': 13.1.0
     dev: false
 
   /@octokit/request@8.1.0:
