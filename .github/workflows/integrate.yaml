@@ -23,7 +23,7 @@ jobs:
 
       - name: Build action
         run: |
-          bun typecheck
+          bun --bun typecheck
           bun run build
 
   coding-standards:
