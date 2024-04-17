@@ -38,7 +38,7 @@ jobs:
           bun-version: 1.x.x
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun i
 
       - name: Run Biome
         run: bun biome ci .
