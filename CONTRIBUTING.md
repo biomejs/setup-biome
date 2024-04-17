@@ -27,7 +27,7 @@ following guidelines before making your contribution.
     the following command.
 
     ```sh
-    bun i
+    bun install
     ```
 
 [gh-link]: https://cli.github.com/
