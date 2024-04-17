@@ -1,7 +1,7 @@
 name: Update README.md Package Versions
 on:
   schedule:
-    - cron: '0 0 * * 0' # every Sunday at 00:00
+    - cron: "0 0 * * 0" # every Sunday at 00:00
   workflow_dispatch:
 
 jobs:
@@ -11,35 +11,30 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x.x
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v3
-      with:
-        run_install: true
+      - name: Install dependencies
+        run: bun i
 
-    - name: Package install
-      run: pnpm install
+      - name: Update README.md package Versions
+        id: update-readme-package-versions
+        run: |
+          bun scripts/update-readme-package-versions.ts
 
-    - name: Update README.md package Versions
-      id: update-readme-package-versions
-      run: |
-        node scripts/update-readme-package-versions.mjs
-
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v6
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: 'chore: update package versions in README.md'
-        committer: GitHub Actions Bot <actions@github.com>
-        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-        branch: update-readme-package-versions
-        delete-branch: true
-        title: 'chore: update package versions in README.md'
-        body: |
-          This PR updates the biome package version in README.md to the latest version.
-        add-paths: README.md
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update package versions in README.md"
+          committer: GitHub Actions Bot <actions@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: update-readme-package-versions
+          delete-branch: true
+          title: "chore: update package versions in README.md"
+          body: |
+            This PR updates the biome package version in README.md to the latest version.
+          add-paths: README.md

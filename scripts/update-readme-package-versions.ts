@@ -1,21 +1,32 @@
 import fs from "node:fs";
 
-const getLatestPackageVersion = async (packageName) => {
+const getLatestPackageVersion = async (
+	packageName: string,
+): Promise<string> => {
 	const response = await fetch(
 		`https://registry.npmjs.org/${packageName}/latest`,
 	);
 	const data = await response.json();
-	return data.version;
+	if (
+		data &&
+		typeof data === "object" &&
+		"version" in data &&
+		typeof data.version === "string"
+	) {
+		return data.version;
+	}
+
+	throw new Error(`Failed to get latest version of ${packageName}`);
 };
 
 const VERSION_REGEX = /(\d+\.\d+\.\d+)/g;
 
-const updateReadmePackageVersions = async (packageName, readmePath) => {
+const updateReadmePackageVersions = async (
+	packageName: string,
+	readmePath: string,
+) => {
 	try {
 		const latestVersion = await getLatestPackageVersion(packageName);
-		if (!latestVersion) {
-			throw new Error(`Failed to get latest version of ${packageName}`);
-		}
 
 		const originalContent = fs.readFileSync(readmePath, "utf8");
 		const updatedContent = originalContent.replace(
