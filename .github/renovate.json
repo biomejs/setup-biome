@@ -1,0 +1,18 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "timezone": "Europe/Zurich",
+    "schedule": [
+        "before 9am on monday"
+    ],
+    "extends": [
+        "config:best-practices"
+    ],
+    "rangeStrategy": "bump",
+    "lockFileMaintenance": {
+        "enabled": false
+    },
+    "assignees": [
+        "@biomejs/maintainers",
+        "@biomejs/core-contributors"
+    ]
+}
