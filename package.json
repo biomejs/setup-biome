@@ -1,11 +1,13 @@
 {
 	"name": "setup-biome",
 	"description": "Setup the Biome CLI in GitHub Actions",
+	"module": "src/index.ts",
+	"type": "module",
 	"scripts": {
-		"build": "unbuild",
-		"prepackage": "npm run build",
-		"package": "ncc build build/index.mjs -o dist",
+		"tag": "bun run scripts/tag-github-action.ts",
+		"build": "bun build . --outfile dist/index.mjs --target node --minify",
 		"check": "biome check . --apply",
+		"typecheck": "tsc --noEmit",
 		"ci": "biome ci .",
 		"postinstall": "lefthook install"
 	},
@@ -28,12 +30,10 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.6.4",
 		"@octokit/types": "^12.6.0",
-		"@types/node": "^16.18.96",
+		"@types/bun": "^1.1.0",
 		"@types/semver": "^7.5.8",
-		"@vercel/ncc": "^0.38.1",
 		"lefthook": "^1.6.8",
-		"typescript": "^5.4.5",
-		"unbuild": "^2.0.0"
+		"typescript": "5.5.0-dev.20240417"
 	},
-	"packageManager": "pnpm@8.3.1"
+	"packageManager": "bun@1.1.4"
 }

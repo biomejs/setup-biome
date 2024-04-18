@@ -2,7 +2,7 @@ name: Integrate
 
 on:
   push:
-    branches: [ main, "releases/v*" ]
+    branches: [main, "releases/v*"]
   pull_request:
   workflow_dispatch:
 
@@ -13,37 +13,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 16.x
+          bun-version: 1.x.x
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          run_install: true
+      - name: Install dependencies
+        run: bun i
 
       - name: Build action
-        run: pnpm build
-
-      - name: Package action
-        run: pnpm package
+        run: |
+          bun --bun typecheck
+          bun run build
 
   coding-standards:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 16.x
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x.x
 
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v3
-      with:
-        run_install: true
+      - name: Install dependencies
+        run: bun i
 
-    - name: Run Biome
-      run: pnpm biome ci .
+      - name: Run Biome
+        run: bun biome ci .
