@@ -1,5 +1,7 @@
 pre-commit:
   commands:
+    biome:
+      run: bun run check && git add .
     package:
       glob: src/**/*
       run: bun run build && git add dist/*
