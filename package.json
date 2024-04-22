@@ -35,5 +35,6 @@
 		"lefthook": "^1.6.8",
 		"typescript": "^5.4.5"
 	},
-	"packageManager": "bun@1.1.4"
+	"packageManager": "bun@1.1.4",
+	"trustedDependencies": ["lefthook"]
 }
