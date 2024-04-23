@@ -36,5 +36,5 @@
 		"typescript": "5.4.5"
 	},
 	"packageManager": "bun@1.1.4",
-	"trustedDependencies": ["lefthook"]
+	"trustedDependencies": ["@biomejs/biome", "lefthook"]
 }
