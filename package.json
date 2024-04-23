@@ -28,12 +28,12 @@
 		"yaml": "^2.4.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.7.0",
-		"@octokit/types": "^12.6.0",
-		"@types/bun": "^1.1.0",
-		"@types/semver": "^7.5.8",
-		"lefthook": "^1.6.8",
-		"typescript": "^5.4.5"
+		"@biomejs/biome": "1.7.1",
+		"@octokit/types": "12.6.0",
+		"@types/bun": "1.1.0",
+		"@types/semver": "7.5.8",
+		"lefthook": "1.6.10",
+		"typescript": "5.4.5"
 	},
 	"packageManager": "bun@1.1.4",
 	"trustedDependencies": ["lefthook"]
