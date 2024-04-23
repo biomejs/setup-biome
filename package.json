@@ -8,8 +8,7 @@
 		"build": "bun build . --outfile dist/index.mjs --target node --minify",
 		"check": "biome check . --apply",
 		"typecheck": "tsc --noEmit",
-		"ci": "biome ci .",
-		"postinstall": "lefthook install"
+		"ci": "biome ci ."
 	},
 	"keywords": ["biome", "biomejs", "cli", "github-action"],
 	"author": {
