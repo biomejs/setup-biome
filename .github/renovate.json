@@ -3,7 +3,7 @@
 	"timezone": "Europe/Zurich",
 	"schedule": ["before 9am on monday"],
 	"extends": ["config:best-practices"],
-	"rangeStrategy": "bump",
+	"rangeStrategy": "pin",
 	"lockFileMaintenance": {
 		"enabled": false
 	},
