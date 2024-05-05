@@ -27,7 +27,7 @@
 		"yaml": "2.4.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.7.1",
+		"@biomejs/biome": "1.7.2",
 		"@octokit/types": "13.4.1",
 		"@types/bun": "1.1.0",
 		"@types/semver": "7.5.8",
