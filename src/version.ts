@@ -170,7 +170,10 @@ const extractVersionFromPackageManifest = async (
 				return undefined;
 			}
 
-			return maxSatisfying(versions, versionSpecifier)?.version ?? undefined;
+			return (
+				maxSatisfying(versions, versionSpecifier, { includePrerelease: false })
+					?.version ?? undefined
+			);
 		}
 	} catch {
 		return undefined;
