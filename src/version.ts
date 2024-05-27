@@ -170,10 +170,7 @@ const extractVersionFromPackageManifest = async (
 				return undefined;
 			}
 
-			return (
-				maxSatisfying(versions, versionSpecifier, { includePrerelease: false })
-					?.version ?? undefined
-			);
+			return maxSatisfying(versions, versionSpecifier)?.version ?? undefined;
 		}
 	} catch {
 		return undefined;
@@ -200,7 +197,12 @@ const fetchBiomeVersions = async (
 		);
 
 		const versions = releases
-			.filter((release) => release.tag_name.startsWith("cli/"))
+			.filter(
+				(release) =>
+					release.tag_name.startsWith("cli/") &&
+					!release.draft &&
+					!release.prerelease,
+			)
 			.map((release) => coerce(release.tag_name));
 
 		return rsort(versions as SemVer[]);
