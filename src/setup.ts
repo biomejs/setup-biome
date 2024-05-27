@@ -109,6 +109,8 @@ const findRelease = async (options: SetupOptions) => {
 
 			const sortedVersions = rsort(versions as SemVer[]);
 
+			console.log("sortedVersions", sortedVersions);
+
 			versionToDownload = sortedVersions[0].version;
 		}
 
