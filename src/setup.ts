@@ -112,6 +112,8 @@ const findRelease = async (options: SetupOptions) => {
 			versionToDownload = sortedVersions[0].version;
 		}
 
+		console.log("versionToDownload", versionToDownload);
+
 		return (
 			await options.octokit.repos.getReleaseByTag({
 				owner: "biomejs",
