@@ -21,7 +21,7 @@
 		"@actions/tool-cache": "2.0.1",
 		"@octokit/auth-action": "5.1.1",
 		"@octokit/request-error": "6.1.1",
-		"@octokit/rest": "20.1.1",
+		"@octokit/rest": "21.0.0",
 		"semver": "7.6.2",
 		"ts-dedent": "2.2.0",
 		"yaml": "2.4.5"
