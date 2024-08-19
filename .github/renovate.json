@@ -8,5 +8,13 @@
 		"enabled": false
 	},
 	"assignees": ["@biomejs/maintainers", "@biomejs/core-contributors"],
-	"ignoreScripts": true
+	"ignoreScripts": true,
+	"packageRules": [
+		{
+			"description": "Automerge minor and patch updates",
+			"matchUpdateTypes": ["minor", "patch", "pin", "pinDigest"],
+			"matchCurrentVersion": "!/^0/",
+			"automerge": true
+		}
+	]
 }
