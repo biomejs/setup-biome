@@ -31,7 +31,7 @@
 		"@octokit/types": "13.5.0",
 		"@types/bun": "1.1.8",
 		"@types/semver": "7.5.8",
-		"lefthook": "1.7.14",
+		"lefthook": "1.7.15",
 		"typescript": "5.5.4"
 	},
 	"packageManager": "bun@1.1.4",
