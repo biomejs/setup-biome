@@ -2,7 +2,7 @@ name: Setup Biome
 author: biomejs
 description: Setup the Biome CLI in GitHub Actions
 branding:
-  color: yellow
+  color: blue
   icon: terminal
 inputs:
   token:
