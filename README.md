@@ -49,7 +49,7 @@ resort, it will install the latest version of the Biome CLI.
   uses: biomejs/setup-biome@v2
 
 - name: Run Biome
-  run: biome ci .
+  run: biome ci
 ```
 
 > [!IMPORTANT]
@@ -66,7 +66,7 @@ Setup the latest version of the Biome CLI.
     version: latest
 
 - name: Run Biome
-  run: biome ci .
+  run: biome ci
 ```
 
 ### Specific version
@@ -80,7 +80,7 @@ Install version `1.9.4` of the Biome CLI.
     version: 1.9.4
 
 - name: Run Biome
-  run: biome ci .
+  run: biome ci
 ```
 
 ## License
