@@ -28,7 +28,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@octokit/types": "13.6.1",
+		"@octokit/types": "13.6.2",
 		"@types/bun": "1.1.13",
 		"@types/semver": "7.5.8",
 		"lefthook": "1.8.4",
