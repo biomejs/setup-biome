@@ -1,6 +1,6 @@
 # Setup Biome CLI in GitHub Actions
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/biomejs/setup-biome?label=latest&logo=github)](https://github.com/marketplace/actions/setup-biome)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/biomejs/setup-biome?label=latest&logo=github&labelColor=374151&color=60a5fa)](https://github.com/marketplace/actions/setup-biome)
 [![Test](https://github.com/biomejs/setup-biome/actions/workflows/test.yaml/badge.svg)](https://github.com/biomejs/setup-biome/actions/workflows/test.yaml)
 [![Integrate](https://github.com/biomejs/setup-biome/actions/workflows/integrate.yaml/badge.svg)](https://github.com/biomejs/setup-biome/actions/workflows/integrate.yaml)
 
