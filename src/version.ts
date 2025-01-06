@@ -51,6 +51,7 @@ export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
 		(await extractVersionFromNpmLockFile(root)) ??
 		(await extractVersionFromPnpmLockFile(root)) ??
 		(await extractVersionFromYarnLockFile(root)) ??
+		(await extractVersionFromBunLockFile(root)) ??
 		(await extractVersionFromPackageManifest(root, octokit)) ??
 		"latest"
 	);
@@ -115,6 +116,24 @@ const extractVersionFromYarnLockFile = async (
 			name.startsWith("@biomejs/biome@"),
 		)[0];
 		return lockfile[biome]?.version;
+	} catch {
+		return undefined;
+	}
+};
+
+/**
+ * Extracts the Biome CLI version from the project's
+ * bun.lock file.
+ */
+const extractVersionFromBunLockFile = async (
+	root: string,
+): Promise<string | undefined> => {
+	try {
+		const lockfile = parse(
+			await readFile(join(root, "bun.lock"), "utf8"),
+		).packages;
+
+		return lockfile["@biomejs/biome"][0].split("@").pop();
 	} catch {
 		return undefined;
 	}
