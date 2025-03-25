@@ -48,7 +48,7 @@ export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
 
 	return (
 		getInput("version") ??
-		warnAboutMissingPackageJsonManifest() ??
+		warnAboutMissingPackageJsonManifest(root) ??
 		(await extractVersionFromNpmLockFile(root)) ??
 		(await extractVersionFromPnpmLockFile(root)) ??
 		(await extractVersionFromYarnLockFile(root)) ??
@@ -68,8 +68,8 @@ export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
  *
  * @returns {undefined} Always returns undefined.
  */
-const warnAboutMissingPackageJsonManifest = () => {
-	if (!existsSync(join(process.cwd(), "package.json"))) {
+const warnAboutMissingPackageJsonManifest = (root: string) => {
+	if (!existsSync(join(root, "package.json"))) {
 		warning(
 			"Cannot find package.json in the working directory. Did you forget to checkout the repository?",
 		);
