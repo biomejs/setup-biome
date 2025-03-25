@@ -48,6 +48,7 @@ export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
 
 	return (
 		getInput("version") ??
+		warnAboutMissingPackageJsonManifest(root) ??
 		(await extractVersionFromNpmLockFile(root)) ??
 		(await extractVersionFromPnpmLockFile(root)) ??
 		(await extractVersionFromYarnLockFile(root)) ??
@@ -55,6 +56,25 @@ export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
 		(await extractVersionFromPackageManifest(root, octokit)) ??
 		"latest"
 	);
+};
+
+/**
+ * Warns the user if the package.json file is missing in the project root.
+ *
+ * If the package.json file is missing from the working directory, it is likely
+ * that the user has not checked out the repository. This function will
+ * display a warning message to the user, indicating that the package.json
+ * file is missing and suggesting that the user check out the repository.
+ *
+ * @returns {undefined} Always returns undefined.
+ */
+const warnAboutMissingPackageJsonManifest = (root: string) => {
+	if (!existsSync(join(root, "package.json"))) {
+		warning(
+			"Cannot find package.json in the working directory. Did you forget to checkout the repository?",
+		);
+	}
+	return undefined;
 };
 
 /**
