@@ -159,19 +159,27 @@ const extractVersionFromPackageManifest = async (
 			await readFile(join(root, "package.json"), "utf8"),
 		);
 
+		info("Extracting version from package.json manifest");
+
 		// The package should be installed as a devDependency, but we'll check
 		// both dependencies and devDependencies just in case.
 		const versionSpecifier =
 			manifest.devDependencies?.["@biomejs/biome"] ??
 			manifest.dependencies?.["@biomejs/biome"];
 
+		info(`Found @biomejs/biome version specifier: ${versionSpecifier}`);
+
 		// Biome is not a dependency of the project.
 		if (!versionSpecifier) {
+			warning(
+				"@biomejs/biome is not a dependency of the project. Falling back to latest.",
+			);
 			return undefined;
 		}
 
 		// If the version is specific, we return it directly.
 		if (valid(versionSpecifier)) {
+			info(`Biome version is valid and specific: ${versionSpecifier}`);
 			return versionSpecifier;
 		}
 
@@ -191,7 +199,11 @@ const extractVersionFromPackageManifest = async (
 
 			return maxSatisfying(versions, versionSpecifier)?.version ?? undefined;
 		}
-	} catch {
+	} catch (e) {
+		console.error(e);
+		warning(
+			"Failed to extract version from package.json manifest. Falling back to latest.",
+		);
 		return undefined;
 	}
 };
