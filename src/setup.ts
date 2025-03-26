@@ -1,10 +1,11 @@
 import { chmodSync, renameSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { addPath, setFailed } from "@actions/core";
+import { addPath, error, setFailed } from "@actions/core";
 import { downloadTool } from "@actions/tool-cache";
 import { RequestError } from "@octokit/request-error";
 import { Octokit } from "@octokit/rest";
 import { type SemVer, coerce, rsort } from "semver";
+import { getTag } from "./helpers";
 
 /**
  * Biome Setup Options
@@ -43,7 +44,9 @@ export const setup = async (config: Partial<SetupOptions>) => {
 
 	try {
 		const cliPath = await download(options);
-		await install(cliPath, options);
+		if (cliPath) {
+			await install(cliPath, options);
+		}
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.log(error.message);
@@ -55,9 +58,15 @@ export const setup = async (config: Partial<SetupOptions>) => {
 /**
  * Downloads the Biome CLI
  */
-const download = async (options: SetupOptions): Promise<string> => {
+const download = async (options: SetupOptions): Promise<string | undefined> => {
 	try {
 		const releaseId = await findRelease(options);
+
+		if (!releaseId) {
+			error("Could not find a release for the given version. Aborting.");
+			return;
+		}
+
 		const assetURL = await findAsset(releaseId, options);
 		return await downloadTool(assetURL);
 	} catch (error) {
@@ -81,9 +90,12 @@ const download = async (options: SetupOptions): Promise<string> => {
 
 /**
  * Finds the release for the given version
+ *
+ * When using "latest", we'll look for the latest stable release, not the actual latest
+ * version.
  */
 const findRelease = async (options: SetupOptions) => {
-	let versionToDownload = options.version;
+	let versionToDownload = coerce(options.version, { includePrerelease: true });
 
 	try {
 		if (options.version === "latest") {
@@ -98,25 +110,33 @@ const findRelease = async (options: SetupOptions) => {
 			const versions = releases
 				.filter((release) => {
 					return (
-						release.tag_name.startsWith("cli/") &&
-						!release.draft &&
-						!release.prerelease
+						(release.tag_name.startsWith("cli/") ||
+							release.tag_name.startsWith("@biomejs/biome@")) &&
+						!release.prerelease &&
+						!release.draft
 					);
 				})
 				.map((release) => {
-					return coerce(release.tag_name);
+					return coerce(release.tag_name, { includePrerelease: true });
 				});
 
 			const sortedVersions = rsort(versions as SemVer[]);
 
-			versionToDownload = sortedVersions[0].version;
+			versionToDownload = sortedVersions[0];
+		}
+
+		if (!versionToDownload) {
+			error(
+				"Invalid version specified. It should be a valid semver version or 'latest'.",
+			);
+			return;
 		}
 
 		return (
 			await options.octokit.repos.getReleaseByTag({
 				owner: "biomejs",
 				repo: "biome",
-				tag: `cli/v${versionToDownload}`,
+				tag: getTag(versionToDownload),
 			})
 		).data.id;
 	} catch (error) {
