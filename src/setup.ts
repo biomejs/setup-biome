@@ -44,7 +44,9 @@ export const setup = async (config: Partial<SetupOptions>) => {
 
 	try {
 		const cliPath = await download(options);
-		await install(cliPath, options);
+		if (cliPath) {
+			await install(cliPath, options);
+		}
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			console.log(error.message);
@@ -56,9 +58,15 @@ export const setup = async (config: Partial<SetupOptions>) => {
 /**
  * Downloads the Biome CLI
  */
-const download = async (options: SetupOptions): Promise<string> => {
+const download = async (options: SetupOptions): Promise<string | undefined> => {
 	try {
 		const releaseId = await findRelease(options);
+
+		if (!releaseId) {
+			error("Could not find a release for the given version. Aborting.");
+			return;
+		}
+
 		const assetURL = await findAsset(releaseId, options);
 		return await downloadTool(assetURL);
 	} catch (error) {
