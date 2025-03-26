@@ -15,7 +15,7 @@ export const getInput = (name: string): string | undefined => {
  */
 export const getTag = (version: SemVer) => {
 	if (version.major >= 2) {
-		return `@biomejs/biome@v${version.version}`;
+		return `@biomejs/biome@${version.version}`;
 	}
 
 	return `cli/v${version.version}`;
