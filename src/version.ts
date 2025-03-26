@@ -245,7 +245,7 @@ const fetchBiomeVersions = async (
 						release.tag_name.startsWith("@biomejs/biome@")) &&
 					!release.draft,
 			)
-			.map((release) => coerce(release.tag_name));
+			.map((release) => coerce(release.tag_name, { includePrerelease: true }));
 
 		return rsort(versions as SemVer[]);
 	} catch {

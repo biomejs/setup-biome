@@ -92,7 +92,7 @@ const download = async (options: SetupOptions): Promise<string | undefined> => {
  * Finds the release for the given version
  */
 const findRelease = async (options: SetupOptions) => {
-	let versionToDownload = coerce(options.version);
+	let versionToDownload = coerce(options.version, { includePrerelease: true });
 
 	try {
 		if (options.version === "latest") {
@@ -113,7 +113,7 @@ const findRelease = async (options: SetupOptions) => {
 					);
 				})
 				.map((release) => {
-					return coerce(release.tag_name);
+					return coerce(release.tag_name, { includePrerelease: true });
 				});
 
 			const sortedVersions = rsort(versions as SemVer[]);
