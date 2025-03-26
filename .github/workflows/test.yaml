@@ -210,8 +210,6 @@ jobs:
             exit 1
           fi
 
-
-          
   test-fallback-latest:
     name: Fallback to latest
     runs-on: ${{ matrix.os }}
