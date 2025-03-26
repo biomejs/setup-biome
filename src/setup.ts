@@ -90,6 +90,9 @@ const download = async (options: SetupOptions): Promise<string | undefined> => {
 
 /**
  * Finds the release for the given version
+ *
+ * When using "latest", we'll look for the latest stable release, not the actual latest
+ * version.
  */
 const findRelease = async (options: SetupOptions) => {
 	let versionToDownload = coerce(options.version, { includePrerelease: true });
@@ -109,6 +112,7 @@ const findRelease = async (options: SetupOptions) => {
 					return (
 						(release.tag_name.startsWith("cli/") ||
 							release.tag_name.startsWith("@biomejs/biome@")) &&
+						!release.prerelease &&
 						!release.draft
 					);
 				})
