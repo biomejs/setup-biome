@@ -237,10 +237,7 @@ const fetchBiomeVersions = async (
 
 		const versions = releases
 			.filter(
-				(release) =>
-					release.tag_name.startsWith("cli/") &&
-					!release.draft &&
-					!release.prerelease,
+				(release) => release.tag_name.startsWith("cli/") && !release.draft,
 			)
 			.map((release) => coerce(release.tag_name));
 
