@@ -221,7 +221,10 @@ const extractVersionFromPackageManifest = async (
  *
  * This function will return the versions of the Biome CLI that are available
  * on GitHub. This includes all versions that have been released, including
- * pre-releases and draft releases.
+ * pre-releases.
+ *
+ * Starting from Biome v2.0.0-beta.0, the format of the tags have changed from
+ * `cli/v1.9.4` to `@biomejs/biome@2.0.0-beta.0`.
  */
 const fetchBiomeVersions = async (
 	octokit: Octokit,
@@ -237,7 +240,10 @@ const fetchBiomeVersions = async (
 
 		const versions = releases
 			.filter(
-				(release) => release.tag_name.startsWith("cli/") && !release.draft,
+				(release) =>
+					(release.tag_name.startsWith("cli/") ||
+						release.tag_name.startsWith("@biomejs/biome@")) &&
+					!release.draft,
 			)
 			.map((release) => coerce(release.tag_name));
 

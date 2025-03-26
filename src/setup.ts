@@ -1,10 +1,11 @@
 import { chmodSync, renameSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { addPath, setFailed } from "@actions/core";
+import { addPath, error, setFailed } from "@actions/core";
 import { downloadTool } from "@actions/tool-cache";
 import { RequestError } from "@octokit/request-error";
 import { Octokit } from "@octokit/rest";
 import { type SemVer, coerce, rsort } from "semver";
+import { getTag } from "./helpers";
 
 /**
  * Biome Setup Options
@@ -83,7 +84,7 @@ const download = async (options: SetupOptions): Promise<string> => {
  * Finds the release for the given version
  */
 const findRelease = async (options: SetupOptions) => {
-	let versionToDownload = options.version;
+	let versionToDownload = coerce(options.version);
 
 	try {
 		if (options.version === "latest") {
@@ -98,9 +99,9 @@ const findRelease = async (options: SetupOptions) => {
 			const versions = releases
 				.filter((release) => {
 					return (
-						release.tag_name.startsWith("cli/") &&
-						!release.draft &&
-						!release.prerelease
+						(release.tag_name.startsWith("cli/") ||
+							release.tag_name.startsWith("@biomejs/biome@")) &&
+						!release.draft
 					);
 				})
 				.map((release) => {
@@ -109,14 +110,21 @@ const findRelease = async (options: SetupOptions) => {
 
 			const sortedVersions = rsort(versions as SemVer[]);
 
-			versionToDownload = sortedVersions[0].version;
+			versionToDownload = sortedVersions[0];
+		}
+
+		if (!versionToDownload) {
+			error(
+				"Invalid version specified. It should be a valid semver version or 'latest'.",
+			);
+			return;
 		}
 
 		return (
 			await options.octokit.repos.getReleaseByTag({
 				owner: "biomejs",
 				repo: "biome",
-				tag: `cli/v${versionToDownload}`,
+				tag: getTag(versionToDownload),
 			})
 		).data.id;
 	} catch (error) {
