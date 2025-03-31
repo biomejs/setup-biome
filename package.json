@@ -30,7 +30,7 @@
 		"@biomejs/biome": "1.9.4",
 		"@octokit/types": "13.10.0",
 		"@types/bun": "1.2.8",
-		"@types/semver": "7.5.8",
+		"@types/semver": "7.7.0",
 		"lefthook": "1.11.5",
 		"typescript": "5.8.2"
 	},
