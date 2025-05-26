@@ -19,9 +19,9 @@
 	"dependencies": {
 		"@actions/core": "1.11.1",
 		"@actions/tool-cache": "2.0.2",
-		"@octokit/auth-action": "5.1.2",
-		"@octokit/request-error": "6.1.8",
-		"@octokit/rest": "21.1.1",
+		"@octokit/auth-action": "6.0.1",
+		"@octokit/request-error": "7.0.0",
+		"@octokit/rest": "22.0.0",
 		"semver": "7.7.2",
 		"ts-dedent": "2.2.0",
 		"yaml": "2.8.0"
