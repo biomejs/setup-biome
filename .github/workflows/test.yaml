@@ -63,7 +63,7 @@ jobs:
       - name: Check equality
         shell: bash
         env:
-          BIOME_EXPECTED_VERSION: 2.0.0-beta.5
+          BIOME_EXPECTED_VERSION: 1.9.5-nightly.81fdedb
         run: |
           if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
