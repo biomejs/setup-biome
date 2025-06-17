@@ -4,6 +4,6 @@
 	"main": "index.js",
 	"license": "MIT",
 	"devDependencies": {
-		"@biomejs/biome": "1.5.0"
+		"@biomejs/biome": "2.0.0"
 	}
 }

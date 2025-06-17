@@ -9,6 +9,6 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"@biomejs/biome": "1.9.5-nightly.81fdedb"
+		"@biomejs/biome": "^2.0.0"
 	}
 }
