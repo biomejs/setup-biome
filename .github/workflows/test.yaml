@@ -11,7 +11,7 @@ env:
   # It is the version that the test expect to find during automatic version detection. It is important
   # that this version is NOT the latest version of the CLI because some tests may still pass if the
   # automatic version detection fails and falls back to the latest version.
-  BIOME_EXPECTED_VERSION: 1.5.0
+  BIOME_EXPECTED_VERSION: 2.0.0
 
 jobs:
   test-specific:
@@ -27,7 +27,7 @@ jobs:
       - name: Setup Biome CLI
         uses: ./
         with:
-          version: "1.5.1"
+          version: "2.0.0"
       - name: Retrieve the version
         id: version
         shell: bash
@@ -35,7 +35,7 @@ jobs:
       - name: Check equality
         shell: bash
         run: |
-          if [ "Version: 1.5.1" == "${{ steps.version.outputs.version }}" ]; then
+          if [ "Version: 2.0.0" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
           else
             echo "Versions do not match"
@@ -63,7 +63,7 @@ jobs:
       - name: Check equality
         shell: bash
         env:
-          BIOME_EXPECTED_VERSION: 1.9.5-nightly.81fdedb
+          BIOME_EXPECTED_VERSION: 2.0.0
         run: |
           if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
             exit 0
