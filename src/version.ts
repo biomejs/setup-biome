@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
+import { findUp } from "find-up";
 import {
 	type SemVer,
 	coerce,
@@ -212,6 +213,31 @@ const extractVersionFromPackageManifest = async (
 
 			return maxSatisfying(versions, versionSpecifier)?.version ?? undefined;
 		}
+
+		// If the version is a catalog specifier, we check pnpm-workspace.
+		if (versionSpecifier.startsWith("catalog:")) {
+			return await extractVersionFromPnpmWorkspaceFile(root);
+		}
+	} catch (e) {
+		return undefined;
+	}
+};
+
+/**
+ * Extracts the Biome CLI version from the project's
+ * pnpm-workspace.yaml file.
+ */
+const extractVersionFromPnpmWorkspaceFile = async (
+	root: string,
+): Promise<string | undefined> => {
+	try {
+		const workspacePath = await findUp("pnpm-workspace.yaml", { cwd: root });
+		if (!workspacePath) {
+			return undefined;
+		}
+
+		const workspaceFile = parse(await readFile(workspacePath, "utf8"));
+		return workspaceFile.catalog?.["@biomejs/biome"];
 	} catch {
 		return undefined;
 	}
