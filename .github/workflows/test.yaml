@@ -128,7 +128,7 @@ jobs:
             exit 1
           fi
 
-  test-pnpm-catalog-root:
+  test-pnpm-workspace-root:
     name: Auto-detect version (pnpm catalog)
     runs-on: ${{ matrix.os }}
     strategy:
@@ -141,7 +141,7 @@ jobs:
       - name: Setup Biome CLI
         uses: ./
         with:
-          working-dir: "test/fixtures/pnpm-catalog"
+          working-dir: "test/fixtures/pnpm-workspace"
       - name: Retrieve the version
         id: version
         shell: bash
@@ -156,7 +156,7 @@ jobs:
             exit 1
           fi
 
-  test-pnpm-catalog-default:
+  test-pnpm-workspace-default:
     name: Auto-detect version (pnpm workspace package with catalog)
     runs-on: ${{ matrix.os }}
     strategy:
@@ -169,7 +169,7 @@ jobs:
       - name: Setup Biome CLI
         uses: ./
         with:
-          working-dir: "test/fixtures/pnpm-catalog/packages/package-a"
+          working-dir: "test/fixtures/pnpm-workspace/packages/package-a"
       - name: Retrieve the version
         id: version
         shell: bash
@@ -184,7 +184,7 @@ jobs:
             exit 1
           fi
 
-  test-pnpm-catalog-named:
+  test-pnpm-workspace-named:
     name: Auto-detect version (pnpm workspace package with catalog)
     runs-on: ${{ matrix.os }}
     strategy:
@@ -197,7 +197,7 @@ jobs:
       - name: Setup Biome CLI
         uses: ./
         with:
-          working-dir: "test/fixtures/pnpm-catalog/packages/package-b"
+          working-dir: "test/fixtures/pnpm-workspace/packages/package-b"
       - name: Retrieve the version
         id: version
         shell: bash
