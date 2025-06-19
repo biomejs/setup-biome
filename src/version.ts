@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
-import { findUp } from "find-up";
+import { findUp } from "find-up-simple";
 import {
 	type SemVer,
 	coerce,
