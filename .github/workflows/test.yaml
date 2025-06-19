@@ -156,7 +156,7 @@ jobs:
             exit 1
           fi
 
-  test-pnpm-workspace-default:
+  test-pnpm-workspace-default-catalog:
     name: Auto-detect version (pnpm workspace package with catalog)
     runs-on: ${{ matrix.os }}
     strategy:
@@ -184,7 +184,7 @@ jobs:
             exit 1
           fi
 
-  test-pnpm-workspace-named:
+  test-pnpm-workspace-named-catalog:
     name: Auto-detect version (pnpm workspace package with catalog)
     runs-on: ${{ matrix.os }}
     strategy:
