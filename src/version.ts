@@ -216,7 +216,8 @@ const extractVersionFromPackageManifest = async (
 
 		// If the version is a catalog specifier, we check pnpm-workspace.
 		if (versionSpecifier.startsWith("catalog:")) {
-			return await extractVersionFromPnpmWorkspaceFile(root);
+			const catalogName = versionSpecifier.split(":")[1];
+			return await extractVersionFromPnpmWorkspaceFile(root, catalogName);
 		}
 	} catch (e) {
 		return undefined;
@@ -229,6 +230,7 @@ const extractVersionFromPackageManifest = async (
  */
 const extractVersionFromPnpmWorkspaceFile = async (
 	root: string,
+	catalogName?: string,
 ): Promise<string | undefined> => {
 	try {
 		const workspacePath = await findUp("pnpm-workspace.yaml", { cwd: root });
@@ -237,7 +239,10 @@ const extractVersionFromPnpmWorkspaceFile = async (
 		}
 
 		const workspaceFile = parse(await readFile(workspacePath, "utf8"));
-		return workspaceFile.catalog?.["@biomejs/biome"];
+		return (
+			workspaceFile.catalogs?.[catalogName ?? ""]?.["@biomejs/biome"] ??
+			workspaceFile.catalog?.["@biomejs/biome"]
+		);
 	} catch {
 		return undefined;
 	}

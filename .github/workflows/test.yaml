@@ -128,7 +128,7 @@ jobs:
             exit 1
           fi
 
-  test-pnpm-catalog:
+  test-pnpm-catalog-root:
     name: Auto-detect version (pnpm catalog)
     runs-on: ${{ matrix.os }}
     strategy:
@@ -156,7 +156,7 @@ jobs:
             exit 1
           fi
 
-  test-pnpm-catalog-packages:
+  test-pnpm-catalog-default:
     name: Auto-detect version (pnpm workspace package with catalog)
     runs-on: ${{ matrix.os }}
     strategy:
@@ -170,6 +170,34 @@ jobs:
         uses: ./
         with:
           working-dir: "test/fixtures/pnpm-catalog/packages/package-a"
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+
+  test-pnpm-catalog-named:
+    name: Auto-detect version (pnpm workspace package with catalog)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [depot-ubuntu-24.04-arm-16, macos-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Setup Biome CLI
+        uses: ./
+        with:
+          working-dir: "test/fixtures/pnpm-catalog/packages/package-b"
       - name: Retrieve the version
         id: version
         shell: bash

@@ -3,3 +3,7 @@ packages:
 
 catalog:
   "@biomejs/biome": 2.0.0
+
+catalogs:
+  biome2:
+    "@biomejs/biome": 2.0.0
