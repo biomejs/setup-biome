@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
+import { findUp } from "find-up-simple";
 import {
 	type SemVer,
 	coerce,
@@ -110,8 +111,9 @@ const extractVersionFromPnpmLockFile = async (
 		);
 		return (
 			// pnpm lockfile 9
-			lockfile.importers["."]?.devDependencies["@biomejs/biome"]?.version ??
-			lockfile.importers["."]?.dependencies["@biomejs/biome"]?.version ??
+			lockfile.importers["."]?.devDependencies?.["@biomejs/biome"]?.version ??
+			lockfile.importers["."]?.dependencies?.["@biomejs/biome"]?.version ??
+			lockfile.catalogs?.default["@biomejs/biome"]?.version ??
 			// pnpm lockfile 3,4,5,6
 			lockfile.devDependencies?.["@biomejs/biome"]?.version ??
 			lockfile.dependencies?.["@biomejs/biome"]?.version
@@ -211,6 +213,36 @@ const extractVersionFromPackageManifest = async (
 
 			return maxSatisfying(versions, versionSpecifier)?.version ?? undefined;
 		}
+
+		// If the version is a catalog specifier, we check pnpm-workspace.
+		if (versionSpecifier.startsWith("catalog:")) {
+			const catalogName = versionSpecifier.split(":")[1];
+			return await extractVersionFromPnpmWorkspaceFile(root, catalogName);
+		}
+	} catch (e) {
+		return undefined;
+	}
+};
+
+/**
+ * Extracts the Biome CLI version from the project's
+ * pnpm-workspace.yaml file.
+ */
+const extractVersionFromPnpmWorkspaceFile = async (
+	root: string,
+	catalogName?: string,
+): Promise<string | undefined> => {
+	try {
+		const workspacePath = await findUp("pnpm-workspace.yaml", { cwd: root });
+		if (!workspacePath) {
+			return undefined;
+		}
+
+		const workspaceFile = parse(await readFile(workspacePath, "utf8"));
+		return (
+			workspaceFile.catalogs?.[catalogName ?? ""]?.["@biomejs/biome"] ??
+			workspaceFile.catalog?.["@biomejs/biome"]
+		);
 	} catch {
 		return undefined;
 	}
