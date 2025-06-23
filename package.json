@@ -10,7 +10,12 @@
 		"typecheck": "tsc --noEmit",
 		"ci": "biome ci"
 	},
-	"keywords": ["biome", "biomejs", "cli", "github-action"],
+	"keywords": [
+		"biome",
+		"biomejs",
+		"cli",
+		"github-action"
+	],
 	"author": {
 		"name": "Nicolas Hedger",
 		"email": "nicolas@hedger.ch"
@@ -35,5 +40,8 @@
 		"typescript": "5.8.3"
 	},
 	"packageManager": "bun@1.2.10",
-	"trustedDependencies": ["@biomejs/biome", "lefthook"]
+	"trustedDependencies": [
+		"@biomejs/biome",
+		"lefthook"
+	]
 }

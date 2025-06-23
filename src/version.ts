@@ -4,10 +4,10 @@ import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
 import {
-	type SemVer,
 	coerce,
 	maxSatisfying,
 	rsort,
+	type SemVer,
 	valid,
 	validRange,
 } from "semver";
