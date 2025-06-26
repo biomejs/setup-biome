@@ -113,7 +113,6 @@ const extractVersionFromPnpmLockFile = async (
 			// pnpm lockfile 9
 			lockfile.importers["."]?.devDependencies?.["@biomejs/biome"]?.version ??
 			lockfile.importers["."]?.dependencies?.["@biomejs/biome"]?.version ??
-			lockfile.catalogs?.default["@biomejs/biome"]?.version ??
 			// pnpm lockfile 3,4,5,6
 			lockfile.devDependencies?.["@biomejs/biome"]?.version ??
 			lockfile.dependencies?.["@biomejs/biome"]?.version
