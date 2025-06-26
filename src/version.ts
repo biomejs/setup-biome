@@ -5,10 +5,10 @@ import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
 import { findUp } from "find-up-simple";
 import {
-	type SemVer,
 	coerce,
 	maxSatisfying,
 	rsort,
+	type SemVer,
 	valid,
 	validRange,
 } from "semver";
@@ -219,7 +219,7 @@ const extractVersionFromPackageManifest = async (
 			const catalogName = versionSpecifier.split(":")[1];
 			return await extractVersionFromPnpmWorkspaceFile(root, catalogName);
 		}
-	} catch (e) {
+	} catch {
 		return undefined;
 	}
 };

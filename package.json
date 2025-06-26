@@ -10,7 +10,12 @@
 		"typecheck": "tsc --noEmit",
 		"ci": "biome ci"
 	},
-	"keywords": ["biome", "biomejs", "cli", "github-action"],
+	"keywords": [
+		"biome",
+		"biomejs",
+		"cli",
+		"github-action"
+	],
 	"author": {
 		"name": "Nicolas Hedger",
 		"email": "nicolas@hedger.ch"
@@ -28,13 +33,16 @@
 		"yaml": "2.8.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
+		"@biomejs/biome": "2.0.5",
 		"@octokit/types": "14.1.0",
-		"@types/bun": "1.2.16",
+		"@types/bun": "1.2.17",
 		"@types/semver": "7.7.0",
-		"lefthook": "1.11.13",
+		"lefthook": "1.11.14",
 		"typescript": "5.8.3"
 	},
 	"packageManager": "bun@1.2.10",
-	"trustedDependencies": ["@biomejs/biome", "lefthook"]
+	"trustedDependencies": [
+		"@biomejs/biome",
+		"lefthook"
+	]
 }

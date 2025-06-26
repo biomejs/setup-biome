@@ -4,7 +4,7 @@ import { addPath, error, setFailed } from "@actions/core";
 import { downloadTool } from "@actions/tool-cache";
 import { RequestError } from "@octokit/request-error";
 import { Octokit } from "@octokit/rest";
-import { type SemVer, coerce, rsort } from "semver";
+import { coerce, rsort, type SemVer } from "semver";
 import { getTag } from "./helpers";
 
 /**
