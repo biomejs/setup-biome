@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
+import type { LockfileFile } from "@pnpm/lockfile-types";
 import { findUp } from "find-up-simple";
 import {
 	coerce,
@@ -106,20 +107,44 @@ const extractVersionFromPnpmLockFile = async (
 	root: string,
 ): Promise<string | undefined> => {
 	try {
-		const lockfile = parse(
+		const lockfile: LockfileFile = parse(
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
+
+		// If the lockfile has an importers field, we assume it's a
+		// pnpm lockfile v9.
+		if (lockfile.importers) {
+			return extractVersionFromPnpmLockFileV9(lockfile);
+		}
+
+		// Otherwise, we assume it's a pnpm lockfile v3, v4, v5, or v6.
 		return (
-			// pnpm lockfile 9
-			lockfile.importers["."]?.devDependencies?.["@biomejs/biome"]?.version ??
-			lockfile.importers["."]?.dependencies?.["@biomejs/biome"]?.version ??
-			// pnpm lockfile 3,4,5,6
 			lockfile.devDependencies?.["@biomejs/biome"]?.version ??
 			lockfile.dependencies?.["@biomejs/biome"]?.version
 		);
 	} catch {
 		return undefined;
 	}
+};
+
+const extractVersionFromPnpmLockFileV9 = (
+	lockfile: LockfileFile,
+): string | undefined => {
+	const dependency =
+		lockfile.importers?.["."]?.devDependencies?.["@biomejs/biome"] ??
+		lockfile.importers?.["."]?.dependencies?.["@biomejs/biome"];
+
+	if (!dependency) {
+		return;
+	}
+
+	// If the version specifier is a catalog reference, resolve it
+	if (dependency.specifier.startsWith("catalog:")) {
+		const catalogName = dependency.specifier.split(":")[1] ?? "default";
+		return lockfile.catalogs?.[catalogName]?.["@biomejs/biome"]?.version;
+	}
+
+	return dependency.version;
 };
 
 /**
