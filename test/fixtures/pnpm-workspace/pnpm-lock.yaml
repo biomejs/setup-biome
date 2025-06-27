@@ -16,7 +16,11 @@ catalogs:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: 'catalog:'
+        version: 2.0.0
 
   packages/package-a:
     devDependencies:
