@@ -111,40 +111,37 @@ const extractVersionFromPnpmLockFile = async (
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
 
-		// If the lockfile has an importers field, we assume it's a
-		// pnpm lockfile v9.
-		if (lockfile.importers) {
-			return extractVersionFromPnpmLockFileV9(lockfile);
-		}
-
-		// Otherwise, we assume it's a pnpm lockfile v3, v4, v5, or v6.
 		return (
-			lockfile.devDependencies?.["@biomejs/biome"]?.version ??
-			lockfile.dependencies?.["@biomejs/biome"]?.version
+			extractVersionFromPnpmLockFileV9(lockfile) ??
+			extractVersionFromPnpmLockFileLegacy(lockfile)
 		);
 	} catch {
 		return undefined;
 	}
 };
 
+/**
+ * Extracts the version from legacy pnpm lock files (prior to v9).
+ */
+const extractVersionFromPnpmLockFileLegacy = (
+	lockfile: LockfileFile,
+): string | undefined => {
+	return (
+		lockfile.devDependencies?.["@biomejs/biome"]?.version ??
+		lockfile.dependencies?.["@biomejs/biome"]?.version
+	);
+};
+
+/**
+ * Extracts the version from pnpm lock files v9
+ */
 const extractVersionFromPnpmLockFileV9 = (
 	lockfile: LockfileFile,
 ): string | undefined => {
-	const dependency =
-		lockfile.importers?.["."]?.devDependencies?.["@biomejs/biome"] ??
-		lockfile.importers?.["."]?.dependencies?.["@biomejs/biome"];
-
-	if (!dependency) {
-		return;
-	}
-
-	// If the version specifier is a catalog reference, resolve it
-	if (dependency.specifier.startsWith("catalog:")) {
-		const catalogName = dependency.specifier.split(":")[1] ?? "default";
-		return lockfile.catalogs?.[catalogName]?.["@biomejs/biome"]?.version;
-	}
-
-	return dependency.version;
+	return (
+		lockfile.importers?.["."]?.devDependencies?.["@biomejs/biome"]?.version ??
+		lockfile.importers?.["."]?.dependencies?.["@biomejs/biome"]?.version
+	);
 };
 
 /**
