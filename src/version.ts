@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
+import type { LockfileFile } from "@pnpm/lockfile-types";
+import { findUp } from "find-up-simple";
 import {
 	coerce,
 	maxSatisfying,
@@ -105,20 +107,41 @@ const extractVersionFromPnpmLockFile = async (
 	root: string,
 ): Promise<string | undefined> => {
 	try {
-		const lockfile = parse(
+		const lockfile: LockfileFile = parse(
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
+
 		return (
-			// pnpm lockfile 9
-			lockfile.importers["."]?.devDependencies["@biomejs/biome"]?.version ??
-			lockfile.importers["."]?.dependencies["@biomejs/biome"]?.version ??
-			// pnpm lockfile 3,4,5,6
-			lockfile.devDependencies?.["@biomejs/biome"]?.version ??
-			lockfile.dependencies?.["@biomejs/biome"]?.version
+			extractVersionFromPnpmLockFileV9(lockfile) ??
+			extractVersionFromPnpmLockFileLegacy(lockfile)
 		);
 	} catch {
 		return undefined;
 	}
+};
+
+/**
+ * Extracts the version from legacy pnpm lock files (prior to v9).
+ */
+const extractVersionFromPnpmLockFileLegacy = (
+	lockfile: LockfileFile,
+): string | undefined => {
+	return (
+		lockfile.devDependencies?.["@biomejs/biome"]?.version ??
+		lockfile.dependencies?.["@biomejs/biome"]?.version
+	);
+};
+
+/**
+ * Extracts the version from pnpm lock files v9
+ */
+const extractVersionFromPnpmLockFileV9 = (
+	lockfile: LockfileFile,
+): string | undefined => {
+	return (
+		lockfile.importers?.["."]?.devDependencies?.["@biomejs/biome"]?.version ??
+		lockfile.importers?.["."]?.dependencies?.["@biomejs/biome"]?.version
+	);
 };
 
 /**
@@ -211,6 +234,36 @@ const extractVersionFromPackageManifest = async (
 
 			return maxSatisfying(versions, versionSpecifier)?.version ?? undefined;
 		}
+
+		// If the version is a catalog specifier, we check pnpm-workspace.
+		if (versionSpecifier.startsWith("catalog:")) {
+			const catalogName = versionSpecifier.split(":")[1];
+			return await extractVersionFromPnpmWorkspaceFile(root, catalogName);
+		}
+	} catch {
+		return undefined;
+	}
+};
+
+/**
+ * Extracts the Biome CLI version from the project's
+ * pnpm-workspace.yaml file.
+ */
+const extractVersionFromPnpmWorkspaceFile = async (
+	root: string,
+	catalogName?: string,
+): Promise<string | undefined> => {
+	try {
+		const workspacePath = await findUp("pnpm-workspace.yaml", { cwd: root });
+		if (!workspacePath) {
+			return undefined;
+		}
+
+		const workspaceFile = parse(await readFile(workspacePath, "utf8"));
+		return (
+			workspaceFile.catalogs?.[catalogName ?? ""]?.["@biomejs/biome"] ??
+			workspaceFile.catalog?.["@biomejs/biome"]
+		);
 	} catch {
 		return undefined;
 	}
