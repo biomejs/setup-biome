@@ -43,7 +43,6 @@
 	},
 	"packageManager": "bun@1.2.10",
 	"trustedDependencies": [
-		"@biomejs/biome",
 		"lefthook"
 	]
 }
