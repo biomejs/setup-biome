@@ -26,7 +26,6 @@
     },
   },
   "trustedDependencies": [
-    "@biomejs/biome",
     "lefthook",
   ],
   "packages": {
