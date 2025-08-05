@@ -39,7 +39,7 @@
 		"@types/bun": "1.2.19",
 		"@types/semver": "7.7.0",
 		"lefthook": "1.12.2",
-		"typescript": "5.8.3"
+		"typescript": "5.9.2"
 	},
 	"packageManager": "bun@1.2.10",
 	"trustedDependencies": [
