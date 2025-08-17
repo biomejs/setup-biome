@@ -26,6 +26,7 @@ jobs:
           bun scripts/update-readme-package-versions.ts
 
       - name: Create Pull Request
+        id: pr
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -38,3 +39,6 @@ jobs:
           body: |
             This PR updates the biome package version in README.md to the latest version.
           add-paths: README.md
+
+      - name: Auto-merge Pull Request
+        run: gh pr merge --auto "${{ steps.pr.outputs.pull-request-number }}"
