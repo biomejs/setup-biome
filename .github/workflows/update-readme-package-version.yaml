@@ -42,3 +42,5 @@ jobs:
 
       - name: Auto-merge Pull Request
         run: gh pr merge --auto "${{ steps.pr.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
