@@ -21,7 +21,7 @@ The following inputs are supported.
     # This input is optional and by default the version will be automatically
     # detected from the project's dependencies. If no version is found in the
     # project's dependencies, the latest version of the Biome CLI will be installed.
-    # Example values: "2.2.0", "latest"
+    # Example values: "2.2.2", "latest"
     version: ""
 
     # The GitHub token to use to authenticate GitHub API requests.
@@ -71,13 +71,13 @@ Setup the latest version of the Biome CLI.
 
 ### Specific version
 
-Install version `2.2.0` of the Biome CLI.
+Install version `2.2.2` of the Biome CLI.
 
 ```yaml
 - name: Setup Biome CLI
   uses: biomejs/setup-biome@v2
   with:
-    version: 2.2.0
+    version: 2.2.2
 
 - name: Run Biome
   run: biome ci
