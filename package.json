@@ -33,7 +33,7 @@
 		"yaml": "2.8.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.4",
+		"@biomejs/biome": "2.2.5",
 		"@octokit/types": "15.0.0",
 		"@pnpm/lockfile-types": "7.1.3",
 		"@types/bun": "1.2.23",
