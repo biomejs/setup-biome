@@ -41,4 +41,7 @@ jobs:
           add-paths: README.md
 
       - name: Auto-merge Pull Request
+        if: steps.pr.outputs.pull-request-operation == 'created'
         run: gh pr merge --auto "${{ steps.pr.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
