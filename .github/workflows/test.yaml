@@ -296,6 +296,34 @@ jobs:
             exit 1
           fi
 
+  test-from-biome-config:
+    name: Auto-detect version (from-biome-config)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [depot-ubuntu-24.04-arm-16, macos-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+      - name: Setup Biome CLI
+        uses: ./
+        with:
+          working-dir: "test/fixtures/from-biome-config"
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+
   test-fallback-latest:
     name: Fallback to latest
     runs-on: ${{ matrix.os }}

@@ -6,7 +6,7 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"includes": ["**", "!**/dist"]
+		"includes": ["**", "!**/dist", "!test/fixtures/from-biome-config"]
 	},
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
