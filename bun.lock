@@ -9,7 +9,7 @@
         "@octokit/auth-action": "6.0.2",
         "@octokit/request-error": "7.1.0",
         "@octokit/rest": "22.0.1",
-        "@std/jsonc": "npm:@jsr/std__jsonc",
+        "@std/jsonc": "npm:@jsr/std__jsonc@1.0.2",
         "find-up-simple": "1.0.1",
         "semver": "7.7.3",
         "ts-dedent": "2.2.0",
