@@ -243,7 +243,12 @@ const extractVersionFromPackageManifest = async (
 const extractVersionFromBiomeConfigFile = async (
 	root: string,
 ): Promise<string | undefined> => {
-	const configFilenames = ["biome.json", "biome.jsonc"];
+	const configFilenames = [
+		".biome.json",
+		".biome.jsonc",
+		"biome.json",
+		"biome.jsonc",
+	];
 
 	for (const filename of configFilenames) {
 		info(`Looking for Biome version in config file (${filename})`);
