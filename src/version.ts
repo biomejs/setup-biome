@@ -5,6 +5,7 @@ import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
 import type { LockfileFile } from "@pnpm/lockfile-types";
 import { findUp } from "find-up-simple";
+import { parse as parseJSONC } from "jsonc-parser";
 import {
 	coerce,
 	maxSatisfying,
@@ -254,7 +255,7 @@ const extractVersionFromBiomeConfigFile = async (
 
 		try {
 			const configFileContent = await readFile(configPath, "utf8");
-			const config = JSON.parse(configFileContent);
+			const config = parseJSONC(configFileContent);
 			return coerce(config.$schema)?.version;
 		} catch {}
 	}
