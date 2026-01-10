@@ -4,8 +4,8 @@ import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
 import type { LockfileFile } from "@pnpm/lockfile-types";
+import { parse as parseJSONC } from "@std/jsonc";
 import { findUp } from "find-up-simple";
-import { parse as parseJSONC } from "jsonc-parser";
 import {
 	coerce,
 	maxSatisfying,
