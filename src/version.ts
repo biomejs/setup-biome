@@ -254,9 +254,12 @@ const extractVersionFromBiomeConfigFile = async (
 		}
 
 		try {
-			const configFileContent = await readFile(configPath, "utf8");
-			const config = parseJSONC(configFileContent);
-			return coerce(config.$schema)?.version;
+			const content = await readFile(configPath, "utf8");
+			const schemaUrl = (parseJSONC(content) as Record<string, unknown>)
+				?.$schema;
+			return typeof schemaUrl === "string"
+				? coerce(schemaUrl)?.version
+				: undefined;
 		} catch {}
 	}
 
