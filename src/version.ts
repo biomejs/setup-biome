@@ -253,13 +253,8 @@ const extractVersionFromBiomeConfigFile = async (
 	for (const filename of configFilenames) {
 		info(`Looking for Biome version in config file (${filename})`);
 
-		const configPath = join(root, filename);
-		if (!existsSync(configPath)) {
-			continue;
-		}
-
 		try {
-			const content = await readFile(configPath, "utf8");
+			const content = await readFile(join(root, filename), "utf8");
 			const schemaUrl = (parseJSONC(content) as Record<string, unknown>)
 				?.$schema;
 			return typeof schemaUrl === "string"
