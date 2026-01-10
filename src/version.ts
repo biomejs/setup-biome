@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { info, warning } from "@actions/core";
 import type { Octokit } from "@octokit/rest";
 import type { LockfileFile } from "@pnpm/lockfile-types";
+import { parse as parseJSONC } from "@std/jsonc";
 import { findUp } from "find-up-simple";
 import {
 	coerce,
@@ -50,33 +51,14 @@ export const getBiomeVersion = async (octokit: Octokit): Promise<string> => {
 
 	return (
 		getInput("version") ??
-		warnAboutMissingPackageJsonManifest(root) ??
 		(await extractVersionFromNpmLockFile(root)) ??
 		(await extractVersionFromPnpmLockFile(root)) ??
 		(await extractVersionFromYarnLockFile(root)) ??
 		(await extractVersionFromBunLockFile(root)) ??
 		(await extractVersionFromPackageManifest(root, octokit)) ??
-		"latest"
+		(await extractVersionFromBiomeConfigFile(root)) ??
+		fallbackToLatestVersion()
 	);
-};
-
-/**
- * Warns the user if the package.json file is missing in the project root.
- *
- * If the package.json file is missing from the working directory, it is likely
- * that the user has not checked out the repository. This function will
- * display a warning message to the user, indicating that the package.json
- * file is missing and suggesting that the user check out the repository.
- *
- * @returns {undefined} Always returns undefined.
- */
-const warnAboutMissingPackageJsonManifest = (root: string) => {
-	if (!existsSync(join(root, "package.json"))) {
-		warning(
-			"Cannot find package.json in the working directory. Did you forget to checkout the repository?",
-		);
-	}
-	return undefined;
 };
 
 /**
@@ -90,6 +72,7 @@ const extractVersionFromNpmLockFile = async (
 	root: string,
 ): Promise<string | undefined> => {
 	try {
+		info("Looking for Biome version in npm lock file (package-lock.json)");
 		const lockfile = JSON.parse(
 			await readFile(join(root, "package-lock.json"), "utf-8"),
 		);
@@ -107,6 +90,7 @@ const extractVersionFromPnpmLockFile = async (
 	root: string,
 ): Promise<string | undefined> => {
 	try {
+		info("Looking for Biome version in pnpm lock file (pnpm-lock.yaml)");
 		const lockfile: LockfileFile = parse(
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
@@ -152,6 +136,7 @@ const extractVersionFromYarnLockFile = async (
 	root: string,
 ): Promise<string | undefined> => {
 	try {
+		info("Looking for Biome version in yarn lock file (yarn.lock)");
 		const lockfile = parse(
 			await readFile(join(root, "yarn.lock"), "utf8"),
 		).object;
@@ -172,6 +157,7 @@ const extractVersionFromBunLockFile = async (
 	root: string,
 ): Promise<string | undefined> => {
 	try {
+		info("Looking for Biome version in bun lock file (bun.lock)");
 		const lockfile = parse(
 			await readFile(join(root, "bun.lock"), "utf8"),
 		).packages;
@@ -198,6 +184,8 @@ const extractVersionFromPackageManifest = async (
 	octokit: Octokit,
 ): Promise<string | undefined> => {
 	try {
+		info("Looking for Biome version in package manifest (package.json)");
+
 		const manifest = JSON.parse(
 			await readFile(join(root, "package.json"), "utf8"),
 		);
@@ -246,6 +234,39 @@ const extractVersionFromPackageManifest = async (
 };
 
 /**
+ * Extracts the Biome CLI version from the Biome config file.
+ *
+ * This function attempts to extract the version of Biome from the
+ * `$schema` field in any Biome configuration file (biome.json(c))
+ * present in the specified root directory.
+ */
+const extractVersionFromBiomeConfigFile = async (
+	root: string,
+): Promise<string | undefined> => {
+	const configFilenames = [
+		".biome.json",
+		".biome.jsonc",
+		"biome.json",
+		"biome.jsonc",
+	];
+
+	for (const filename of configFilenames) {
+		info(`Looking for Biome version in config file (${filename})`);
+
+		try {
+			const content = await readFile(join(root, filename), "utf8");
+			const schemaUrl = (parseJSONC(content) as Record<string, unknown>)
+				?.$schema;
+			return typeof schemaUrl === "string"
+				? coerce(schemaUrl)?.version
+				: undefined;
+		} catch {}
+	}
+
+	return undefined;
+};
+
+/**
  * Extracts the Biome CLI version from the project's
  * pnpm-workspace.yaml file.
  */
@@ -254,6 +275,10 @@ const extractVersionFromPnpmWorkspaceFile = async (
 	catalogName?: string,
 ): Promise<string | undefined> => {
 	try {
+		info(
+			"Looking for Biome version in pnpm workspace file (pnpm-workspace.yaml)",
+		);
+
 		const workspacePath = await findUp("pnpm-workspace.yaml", { cwd: root });
 		if (!workspacePath) {
 			return undefined;
@@ -304,4 +329,16 @@ const fetchBiomeVersions = async (
 	} catch {
 		return undefined;
 	}
+};
+
+/**
+ * Fallback to the latest version of Biome.
+ */
+const fallbackToLatestVersion = (): string => {
+	warning(
+		`Could not determine the Biome version from the project files. Falling back to the latest version. 
+		If this is unexpected, make sure your repository has been checked out and that the working-dir input
+		is set to the directory containing your project (defaults to the root of the repository).`,
+	);
+	return "latest";
 };

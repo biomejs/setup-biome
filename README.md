@@ -39,10 +39,9 @@ The following inputs are supported.
 
 ### Automatic version detection
 
-To automatically determine the version of Biome to install based on the project's dependencies, you can simply omit the `version` input.
+To automatically determine the Biome version to install, simply omit the `version` input.
 
-The action will look for the version of the `@biomejs/biome` dependency in the lockfiles of popular package managers such as npm, yarn, pnpm, and bun. If the version cannot be found in the lockfiles, the action will attempt to retrieve the version from the `package.json` file, and as a last
-resort, it will install the latest version of the Biome CLI.
+The action first looks for the version of the `@biomejs/biome` dependency in the lockfiles of popular package managers (npm, yarn, pnpm, bun). If no version can be determined from lockfiles, it will next check `package.json`. If neither lockfiles nor `package.json` provide a version, the action will then look for a declared version in the project's Biome configuration file (it extracts the version from the `$schema` field). If no version is found after these checks, the action installs the latest version of the Biome CLI.
 
 ```yaml
 - name: Setup Biome CLI
