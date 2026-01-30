@@ -23,7 +23,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"@actions/core": "1.11.1",
-		"@actions/tool-cache": "2.0.2",
+		"@actions/tool-cache": "3.0.1",
 		"@octokit/auth-action": "6.0.2",
 		"@octokit/request-error": "7.1.0",
 		"@octokit/rest": "22.0.1",
