@@ -6,6 +6,7 @@ import { RequestError } from "@octokit/request-error";
 import { Octokit } from "@octokit/rest";
 import { coerce, rsort, type SemVer } from "semver";
 import { getTag } from "./helpers";
+import type { Arch, Platform } from "./types";
 
 /**
  * Biome Setup Options
@@ -19,12 +20,12 @@ export interface SetupOptions {
 	/**
 	 * Operating system to download the CLI for
 	 */
-	platform: "linux" | "darwin" | "win32";
+	platform: Platform;
 
 	/**
 	 * Architecture to download the CLI for
 	 */
-	architecture: "x64" | "arm64";
+	architecture: Arch;
 
 	/**
 	 * Octokit instance to use for API calls
@@ -34,8 +35,8 @@ export interface SetupOptions {
 
 const defaultOptions: SetupOptions = {
 	version: "latest",
-	platform: process.platform as "linux" | "darwin" | "win32",
-	architecture: process.arch as "x64" | "arm64",
+	platform: process.platform as Platform,
+	architecture: process.arch as Arch,
 	octokit: new Octokit(),
 };
 
