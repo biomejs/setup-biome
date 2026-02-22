@@ -1,8 +1,8 @@
 import { createActionAuth } from "@octokit/auth-action";
 import { Octokit } from "@octokit/rest";
 import { setup } from "./setup";
-import { getBiomeVersion } from "./version";
 import type { Arch, Platform } from "./types";
+import { getBiomeVersion } from "./version";
 
 (async () => {
 	const octokit = new Octokit({
