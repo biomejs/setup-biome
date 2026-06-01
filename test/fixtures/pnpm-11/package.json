@@ -6,6 +6,12 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": "^11"
+		}
+	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
