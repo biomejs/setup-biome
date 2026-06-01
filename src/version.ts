@@ -14,7 +14,7 @@ import {
 	valid,
 	validRange,
 } from "semver";
-import { parse } from "yaml";
+import { parse, parseAllDocuments } from "yaml";
 import { getInput } from "./helpers";
 
 /**
@@ -91,14 +91,19 @@ export const extractVersionFromPnpmLockFile = async (
 ): Promise<string | undefined> => {
 	try {
 		info("Looking for Biome version in pnpm lock file (pnpm-lock.yaml)");
-		const lockfile: LockfileFile = parse(
+		const lockfile = parseAllDocuments(
 			await readFile(join(root, "pnpm-lock.yaml"), "utf8"),
 		);
 
-		return (
-			extractVersionFromPnpmLockFileV9(lockfile) ??
-			extractVersionFromPnpmLockFileLegacy(lockfile)
-		);
+		if ("empty" in lockfile && lockfile.empty) return undefined;
+
+		for (const yamlDocument of lockfile) {
+			const document = yamlDocument.toJS();
+			const version =
+				extractVersionFromPnpmLockFileV9(document) ??
+				extractVersionFromPnpmLockFileLegacy(document);
+			if (version) return version;
+		}
 	} catch {
 		return undefined;
 	}
