@@ -101,7 +101,7 @@ jobs:
           fi
 
   test-pnpm-9:
-    name: Auto-detect version (pnpm lockfile v9)
+    name: Auto-detect version (pnpm v9 lockfile)
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -114,6 +114,34 @@ jobs:
         uses: ./
         with:
           working-dir: "test/fixtures/pnpm-9"
+      - name: Retrieve the version
+        id: version
+        shell: bash
+        run: echo "version=$(biome --version)" >> "$GITHUB_OUTPUT"
+      - name: Check equality
+        shell: bash
+        run: |
+          if [ "Version: ${{ env.BIOME_EXPECTED_VERSION }}" == "${{ steps.version.outputs.version }}" ]; then
+            exit 0
+          else
+            echo "Versions do not match"
+            exit 1
+          fi
+
+  test-pnpm-11:
+    name: Auto-detect version (pnpm v11 lockfile)
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [depot-ubuntu-24.04-arm-16, macos-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - name: Setup Biome CLI
+        uses: ./
+        with:
+          working-dir: "test/fixtures/pnpm-11"
       - name: Retrieve the version
         id: version
         shell: bash
@@ -323,7 +351,7 @@ jobs:
             echo "Versions do not match"
             exit 1
           fi
-  
+
   test-from-biome-jsonc:
     name: Auto-detect version (from-biome-config-jsonc)
     runs-on: ${{ matrix.os }}
