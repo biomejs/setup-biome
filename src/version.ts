@@ -86,7 +86,7 @@ const extractVersionFromNpmLockFile = async (
  * Extracts the Biome CLI version from the project's
  * pnpm-lock.yaml file.
  */
-const extractVersionFromPnpmLockFile = async (
+export const extractVersionFromPnpmLockFile = async (
 	root: string,
 ): Promise<string | undefined> => {
 	try {
