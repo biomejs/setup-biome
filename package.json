@@ -4,11 +4,13 @@
 	"module": "src/index.ts",
 	"type": "module",
 	"scripts": {
-		"tag": "bun run scripts/tag-github-action.ts",
-		"build": "bun build . --outfile dist/index.mjs --target node --minify",
+		"tag": "node --experimental-strip-types scripts/tag-github-action.ts",
+		"build": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --banner:js=\"import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);\" --outfile=dist/index.mjs --minify",
+		"test": "node --experimental-strip-types --test src/version.test.ts",
 		"check": "biome check --write",
 		"typecheck": "tsc --noEmit",
-		"ci": "biome ci"
+		"ci": "biome ci",
+		"update-readme-package-versions": "node --experimental-strip-types scripts/update-readme-package-versions.ts"
 	},
 	"keywords": [
 		"biome",
@@ -34,16 +36,14 @@
 		"yaml": "2.9.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.6.3",
+		"@biomejs/biome": "2.6.8",
 		"@octokit/types": "18.0.0",
 		"@pnpm/lockfile-types": "7.1.3",
-		"@types/bun": "1.4.4",
+		"@types/node": "24.19.2",
 		"@types/semver": "7.8.0",
+		"esbuild": "0.28.2",
 		"lefthook": "2.2.2",
 		"typescript": "5.9.3"
 	},
-	"packageManager": "bun@1.4.4",
-	"trustedDependencies": [
-		"lefthook"
-	]
+	"packageManager": "pnpm@12.23.0"
 }

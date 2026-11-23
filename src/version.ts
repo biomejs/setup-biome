@@ -15,7 +15,7 @@ import {
 	validRange,
 } from "semver";
 import { parse, parseAllDocuments } from "yaml";
-import { getInput } from "./helpers";
+import { getInput } from "./helpers.ts";
 
 /**
  * Determines the version of the Biome CLI to setup.
@@ -341,7 +341,7 @@ const fetchBiomeVersions = async (
  */
 const fallbackToLatestVersion = (): string => {
 	warning(
-		`Could not determine the Biome version from the project files. Falling back to the latest version. 
+		`Could not determine the Biome version from the project files. Falling back to the latest version.
 		If this is unexpected, make sure your repository has been checked out and that the working-dir input
 		is set to the directory containing your project (defaults to the root of the repository).`,
 	);

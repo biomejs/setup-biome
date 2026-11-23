@@ -16,7 +16,6 @@ The following inputs are supported.
 - name: Setup Biome
   uses: biomejs/setup-biome@v2
   with:
-
     # The version of the Biome CLI to install.
     # This input is optional and by default the version will be automatically
     # detected from the project's dependencies. If no version is found in the
@@ -52,7 +51,7 @@ The action first looks for the version of the `@biomejs/biome` dependency in the
 ```
 
 > [!IMPORTANT]
-> We recommend that you *pin* the version of `@biomejs/biome` in your project's dependencies. If you provide a semver range, and automatic version detection falls back to reading the `package.json file`, the highest version within the range will be used. See the [versioning documentation](https://biomejs.dev/internals/versioning/) for more information.
+> We recommend that you _pin_ the version of `@biomejs/biome` in your project's dependencies. If you provide a semver range, and automatic version detection falls back to reading the `package.json file`, the highest version within the range will be used. See the [versioning documentation](https://biomejs.dev/internals/versioning/) for more information.
 
 ### Latest version
 

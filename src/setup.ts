@@ -5,8 +5,8 @@ import { downloadTool } from "@actions/tool-cache";
 import { RequestError } from "@octokit/request-error";
 import { Octokit } from "@octokit/rest";
 import { coerce, rsort, type SemVer } from "semver";
-import { getTag } from "./helpers";
-import type { Arch, Platform } from "./types";
+import { getTag } from "./helpers.ts";
+import type { Arch, Platform } from "./types.ts";
 
 /**
  * Biome Setup Options
