@@ -7,8 +7,8 @@ import { warning } from "@actions/core";
  *
  * GitHub records a digest (`sha256:<hex>`) for every release asset. Assets
  * uploaded before GitHub started recording digests have none: those cannot be
- * checked, so a warning is logged and the file is accepted. A digest in any
- * other form, or one that does not match the file, throws.
+ * checked, so a warning is logged and the file is accepted. A digest with
+ * another algorithm, or one that does not match the file, throws.
  */
 export const verifyDigest = async (
 	filePath: string,
@@ -22,7 +22,7 @@ export const verifyDigest = async (
 	}
 
 	const [algorithm, expected] = digest.split(":", 2);
-	if (algorithm !== "sha256" || !/^[0-9a-f]{64}$/i.test(expected ?? "")) {
+	if (algorithm !== "sha256" || !expected) {
 		throw new Error(`Unsupported release asset digest: ${digest}`);
 	}
 

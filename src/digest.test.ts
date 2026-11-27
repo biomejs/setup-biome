@@ -32,6 +32,12 @@ describe("verifyDigest", () => {
 	test("rejects a malformed digest", async () => {
 		await assert.rejects(
 			verifyDigest(file, "sha256:not-hex"),
+			/Checksum mismatch/,
+		);
+	});
+	test("rejects an empty digest value", async () => {
+		await assert.rejects(
+			verifyDigest(file, "sha256:"),
 			/Unsupported release asset digest/,
 		);
 	});
