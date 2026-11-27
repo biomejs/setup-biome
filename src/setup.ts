@@ -32,6 +32,11 @@ export interface SetupOptions {
 	 * Octokit instance to use for API calls
 	 */
 	octokit: Octokit;
+
+	/**
+	 * Whether to verify the downloaded CLI against the release asset digest
+	 */
+	verifyDigest: boolean;
 }
 
 const defaultOptions: SetupOptions = {
@@ -39,6 +44,7 @@ const defaultOptions: SetupOptions = {
 	platform: process.platform as Platform,
 	architecture: process.arch as Arch,
 	octokit: new Octokit(),
+	verifyDigest: true,
 };
 
 export const setup = async (config: Partial<SetupOptions>) => {
@@ -71,7 +77,9 @@ const download = async (options: SetupOptions): Promise<string | undefined> => {
 
 		const asset = await findAsset(releaseId, options);
 		const cliPath = await downloadTool(asset.url);
-		await verifyDigest(cliPath, asset.digest);
+		if (options.verifyDigest) {
+			await verifyDigest(cliPath, asset.digest);
+		}
 		return cliPath;
 	} catch (error) {
 		if (error instanceof RequestError) {

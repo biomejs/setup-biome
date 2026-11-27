@@ -17,6 +17,10 @@ inputs:
     description: The directory in which the action will look for lockfiles to extract the Biome version from
     required: false
     default: ""
+  verify-digest:
+    description: Verify the downloaded Biome CLI against the release asset digest. Set to "false" to skip verification.
+    required: false
+    default: "true"
 runs:
   using: "node24"
   main: "dist/index.mjs"
