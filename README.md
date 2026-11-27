@@ -37,7 +37,7 @@ The following inputs are supported.
     # GitHub records for the release asset. Assets uploaded before GitHub
     # started recording digests (June 2025, e.g. Biome 1.9.4 and earlier) have
     # none: for those a warning is logged and the CLI is installed unverified.
-    # Set to "false" to skip the verification entirely.
+    # Set to `false` to skip the verification entirely.
     verify-digest: true
 ```
 

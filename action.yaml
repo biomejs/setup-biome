@@ -18,9 +18,9 @@ inputs:
     required: false
     default: ""
   verify-digest:
-    description: Verify the downloaded Biome CLI against the release asset digest. Set to "false" to skip verification.
+    description: Verify the downloaded Biome CLI against the release asset digest. Set to `false` to skip verification.
     required: false
-    default: "true"
+    default: true
 runs:
   using: "node24"
   main: "dist/index.mjs"
