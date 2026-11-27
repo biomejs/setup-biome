@@ -6,7 +6,7 @@
 	"scripts": {
 		"tag": "node --experimental-strip-types scripts/tag-github-action.ts",
 		"build": "esbuild src/index.ts --bundle --platform=node --target=node24 --format=esm --banner:js=\"import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);\" --outfile=dist/index.mjs --minify",
-		"test": "node --experimental-strip-types --test src/version.test.ts",
+		"test": "node --experimental-strip-types --test src/version.test.ts src/digest.test.ts",
 		"check": "biome check --write",
 		"typecheck": "tsc --noEmit",
 		"ci": "biome ci",

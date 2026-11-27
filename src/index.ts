@@ -1,3 +1,4 @@
+import { getBooleanInput } from "@actions/core";
 import { createActionAuth } from "@octokit/auth-action";
 import { Octokit } from "@octokit/rest";
 import { setup } from "./setup.ts";
@@ -14,5 +15,6 @@ import { getBiomeVersion } from "./version.ts";
 		platform: process.platform as Platform,
 		architecture: process.arch as Arch,
 		octokit: octokit,
+		verifyDigest: getBooleanInput("verify-digest"),
 	});
 })();

@@ -5,6 +5,7 @@ import { downloadTool } from "@actions/tool-cache";
 import { RequestError } from "@octokit/request-error";
 import { Octokit } from "@octokit/rest";
 import { coerce, rsort, type SemVer } from "semver";
+import { verifyDigest } from "./digest.ts";
 import { getTag } from "./helpers.ts";
 import type { Arch, Platform } from "./types.ts";
 
@@ -31,6 +32,11 @@ export interface SetupOptions {
 	 * Octokit instance to use for API calls
 	 */
 	octokit: Octokit;
+
+	/**
+	 * Whether to verify the downloaded CLI against the release asset digest
+	 */
+	verifyDigest: boolean;
 }
 
 const defaultOptions: SetupOptions = {
@@ -38,6 +44,7 @@ const defaultOptions: SetupOptions = {
 	platform: process.platform as Platform,
 	architecture: process.arch as Arch,
 	octokit: new Octokit(),
+	verifyDigest: true,
 };
 
 export const setup = async (config: Partial<SetupOptions>) => {
@@ -68,8 +75,12 @@ const download = async (options: SetupOptions): Promise<string | undefined> => {
 			return;
 		}
 
-		const assetURL = await findAsset(releaseId, options);
-		return await downloadTool(assetURL);
+		const asset = await findAsset(releaseId, options);
+		const cliPath = await downloadTool(asset.url);
+		if (options.verifyDigest) {
+			await verifyDigest(cliPath, asset.digest);
+		}
+		return cliPath;
 	} catch (error) {
 		if (error instanceof RequestError) {
 			const requestError = error as RequestError;
@@ -185,7 +196,7 @@ const findAsset = async (releaseId: number, options: SetupOptions) => {
 		);
 	}
 
-	return asset.browser_download_url;
+	return { url: asset.browser_download_url, digest: asset.digest };
 };
 
 /**
